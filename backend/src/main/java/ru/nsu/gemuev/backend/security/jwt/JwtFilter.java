@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backend.security;
+package ru.nsu.gemuev.backend.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -17,9 +17,6 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
-
-    private static final String AUTHORIZATION = "Authorization";
-
     private final JwtProvider jwtProvider;
 
     @Override
@@ -36,7 +33,7 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        final String bearer = request.getHeader(AUTHORIZATION);
+        final String bearer = request.getHeader("Authorization");
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
         }

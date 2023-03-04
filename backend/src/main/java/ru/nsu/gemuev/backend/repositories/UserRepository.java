@@ -2,7 +2,7 @@ package ru.nsu.gemuev.backend.repositories;
 
 import lombok.NonNull;
 import org.springframework.data.repository.CrudRepository;
-import ru.nsu.gemuev.backend.entity.User;
+import ru.nsu.gemuev.backend.security.entities.User;
 
 import java.util.Optional;
 

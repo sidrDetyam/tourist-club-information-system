@@ -4,7 +4,7 @@ import lombok.NonNull;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import ru.nsu.gemuev.backend.entity.Role;
+import ru.nsu.gemuev.backend.security.entities.Role;
 
 import java.util.Set;
 

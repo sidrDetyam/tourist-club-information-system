@@ -1,24 +1,20 @@
-package ru.nsu.gemuev.backend.security;
+package ru.nsu.gemuev.backend.security.jwt;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import ru.nsu.gemuev.backend.entity.Role;
+import ru.nsu.gemuev.backend.security.entities.Role;
 
-import java.util.Collection;
 import java.util.Set;
 
-@Getter
-@Setter
+@RequiredArgsConstructor
 public class JwtAuthentication implements Authentication {
-
     private boolean authenticated;
-    private String username;
-    private Set<Role> roles;
+    private final @NonNull String username;
+    private final @NonNull Set<? extends Role> roles;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<? extends Role> getAuthorities() {
         return roles;
     }
 

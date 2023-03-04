@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backend.security;
+package ru.nsu.gemuev.backend.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.Range;
-import ru.nsu.gemuev.backend.entity.Role;
+import ru.nsu.gemuev.backend.security.entities.Role;
 
 import java.security.Key;
 import java.time.Instant;
@@ -22,15 +22,11 @@ import java.util.stream.Collectors;
 @Log4j2
 public final class JwtUtils {
 
-    public static @NonNull JwtAuthentication generateAuthByClaims(@NonNull Claims claims) {
-        final JwtAuthentication jwtInfoToken = new JwtAuthentication();
-        jwtInfoToken.setRoles(getRoles(claims));
-        jwtInfoToken.setUsername(claims.get("username", String.class));
-        jwtInfoToken.setUsername(claims.getSubject());
-        return jwtInfoToken;
+    public static @NonNull JwtAuthentication generateAuthByClaims(@NonNull final Claims claims) {
+        return new JwtAuthentication(claims.getSubject(), getRoles(claims));
     }
 
-    public static boolean validateToken(@NonNull String token, @NonNull Key secret) {
+    public static boolean validateToken(@NonNull final String token, @NonNull final Key secret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secret)
@@ -51,7 +47,7 @@ public final class JwtUtils {
         return false;
     }
 
-    public static @NonNull Claims getClaims(@NonNull String token, @NonNull Key secret) {
+    public static @NonNull Claims getClaims(@NonNull final String token, @NonNull final Key secret) {
         return Jwts.parserBuilder()
                 .setSigningKey(secret)
                 .build()
@@ -59,7 +55,7 @@ public final class JwtUtils {
                 .getBody();
     }
 
-    public static @NonNull Date dateFromNow(@Range(from = 0, to = Long.MAX_VALUE) long minutes) {
+    public static @NonNull Date dateFromNow(@Range(from = 0, to = Long.MAX_VALUE) final long minutes) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant accessExpirationInstant = now
                 .plusMinutes(minutes)
@@ -68,7 +64,7 @@ public final class JwtUtils {
         return Date.from(accessExpirationInstant);
     }
 
-    private static @NonNull Set<Role> getRoles(@NonNull Claims claims) {
+    private static @NonNull Set<Role> getRoles(@NonNull final Claims claims) {
         ///TODO
         final List<HashMap<String, String>> roles = claims.get("roles", List.class);
         return roles.stream()

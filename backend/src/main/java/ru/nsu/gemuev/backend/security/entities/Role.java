@@ -1,20 +1,20 @@
-package ru.nsu.gemuev.backend.entity;
+package ru.nsu.gemuev.backend.security.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Table("roles")
-@AllArgsConstructor
+@Value
 public class Role implements GrantedAuthority {
     @Id
-    private Long id;
+    Long id;
 
     @Column("role_name")
-    private String roleName;
+    String roleName;
 
     @Override
     public @NonNull String getAuthority() {

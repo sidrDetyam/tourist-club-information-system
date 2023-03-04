@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backend.security;
+package ru.nsu.gemuev.backend.security.jwt;
 
 
 import io.jsonwebtoken.Claims;
@@ -9,8 +9,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.nsu.gemuev.backend.entity.Role;
-import ru.nsu.gemuev.backend.entity.User;
+import ru.nsu.gemuev.backend.security.entities.Role;
 
 import javax.crypto.SecretKey;
 import java.util.Set;
@@ -36,36 +35,37 @@ public class JwtProvider {
         this.jwtRefreshExpirationMinutes = jwtRefreshExpiration;
     }
 
-    public @NonNull String generateAccessToken(@NonNull User user, @NonNull Set<Role> roles) {
+    public @NonNull String generateAccessToken(@NonNull final String username,
+                                               @NonNull final Set<? extends Role> roles) {
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(username)
                 .setExpiration(JwtUtils.dateFromNow(jwtAccessExpirationMinutes))
                 .signWith(jwtAccessSecret)
                 .claim("roles", roles)
                 .compact();
     }
 
-    public @NonNull String generateRefreshToken(@NonNull User user) {
+    public @NonNull String generateRefreshToken(@NonNull final String username) {
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(username)
                 .setExpiration(JwtUtils.dateFromNow(jwtRefreshExpirationMinutes))
                 .signWith(jwtRefreshSecret)
                 .compact();
     }
 
-    public boolean validateAccessToken(@NonNull String accessToken) {
+    public boolean validateAccessToken(@NonNull final String accessToken) {
         return JwtUtils.validateToken(accessToken, jwtAccessSecret);
     }
 
-    public boolean validateRefreshToken(@NonNull String refreshToken) {
+    public boolean validateRefreshToken(@NonNull final String refreshToken) {
         return JwtUtils.validateToken(refreshToken, jwtRefreshSecret);
     }
 
-    public Claims getAccessClaims(@NonNull String token) {
+    public Claims getAccessClaims(@NonNull final String token) {
         return JwtUtils.getClaims(token, jwtAccessSecret);
     }
 
-    public Claims getRefreshClaims(@NonNull String token) {
+    public Claims getRefreshClaims(@NonNull final String token) {
         return JwtUtils.getClaims(token, jwtRefreshSecret);
     }
 }

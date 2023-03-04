@@ -7,24 +7,23 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.nsu.gemuev.backend.entity.User;
+import ru.nsu.gemuev.backend.security.entities.User;
 import ru.nsu.gemuev.backend.repositories.UserRepository;
-import ru.nsu.gemuev.backend.security.JwtAuthentication;
-import ru.nsu.gemuev.backend.services.AuthService;
+import ru.nsu.gemuev.backend.security.jwt.JwtAuthentication;
+import ru.nsu.gemuev.backend.security.services.AuthService;
 
 @RestController
 @RequestMapping("/")
 @AllArgsConstructor
-public class Hello {
+public class HelloController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final AuthService authService;
 
     @GetMapping("hello")
     public ResponseEntity<User> hello(){
         return new ResponseEntity<>(userRepository.findById(1L).orElseThrow(), HttpStatus.OK);
     }
-
-    private final AuthService authService;
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("hello/user")

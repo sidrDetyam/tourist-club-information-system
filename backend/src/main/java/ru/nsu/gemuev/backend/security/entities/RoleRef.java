@@ -1,12 +1,12 @@
-package ru.nsu.gemuev.backend.entity;
+package ru.nsu.gemuev.backend.security.entities;
 
-import lombok.Data;
+import lombok.Value;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("users_roles")
-@Data
+@Value
 public class RoleRef {
     @Column("role_id")
-    private Long role;
+    Long role;
 }
