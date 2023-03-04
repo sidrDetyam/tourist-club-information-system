@@ -23,10 +23,10 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final Map<String, String> refreshStorage = new HashMap<>();
-    private final JwtProvider jwtProvider;
+    private final @NonNull UserRepository userRepository;
+    private final @NonNull RoleRepository roleRepository;
+    private final @NonNull Map<String, String> refreshStorage = new HashMap<>();
+    private final @NonNull JwtProvider jwtProvider;
 
     public @NonNull JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException {
         final User user = userRepository.getByUsername(authRequest.getUsername())
