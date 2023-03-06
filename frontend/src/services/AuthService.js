@@ -19,6 +19,7 @@ export async function login(username, password) {
     }
 }
 
+
 export function clearTokens(){
     localStorage.removeItem(ACCESS_TOKEN_LS)
     localStorage.removeItem(REFRESH_TOKEN_LS)

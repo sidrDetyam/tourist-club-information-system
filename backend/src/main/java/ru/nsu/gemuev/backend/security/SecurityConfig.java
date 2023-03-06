@@ -18,6 +18,7 @@ import ru.nsu.gemuev.backend.security.jwt.JwtFilter;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -33,6 +34,9 @@ public class SecurityConfig {
                                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 )
                 .cors()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .build();
     }

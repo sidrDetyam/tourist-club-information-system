@@ -40,7 +40,7 @@ public class JwtProvider {
                                                @NonNull final Set<? extends Role> roles) {
         return Jwts.builder()
                 .setSubject(username)
-                .setExpiration(JwtUtils.dateFromNow(jwtAccessExpirationMinutes, ChronoUnit.MINUTES))
+                .setExpiration(JwtUtils.dateFromNow(jwtAccessExpirationMinutes, ChronoUnit.SECONDS))
                 .signWith(jwtAccessSecret)
                 .claim("roles", roles)
                 .compact();

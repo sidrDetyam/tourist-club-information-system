@@ -1,20 +1,19 @@
 import React from 'react';
-import api, {API_BASE_URL} from "../http/Api";
-import axios from "axios";
+import api from "../http/Api";
+import {useDispatch} from "react-redux";
+import {setIsAuthAction} from "../store/UserReducer";
 
 const Home = () => {
 
-    const config = {
-        headers: {
-            //Authorization: "21131",
-        }
-    }
-
     const hello = async () => {
-        console.log(await api.post("/auth/login", {username: "Alex", password: "y"}))
         console.log(await api.get("/hello"))
     }
 
+    const helloAdmin = async () => {
+        console.log(await api.get("/hello/admin"))
+    }
+
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -22,6 +21,8 @@ const Home = () => {
                 Home
             </div>
             <button onClick={hello}> press </button>
+            <button onClick={() => dispatch(setIsAuthAction(false))}> To false </button>
+            <button onClick={helloAdmin}> admin </button>
         </>
     );
 }

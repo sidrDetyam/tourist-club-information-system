@@ -14,6 +14,7 @@ export const BruhNavBar = () => {
     const navigate = useNavigate()
     const {isAuth} = useSelector(state => state.user)
 
+
     const logOut = useCallback(() => {
         clearTokens()
         dispatch(setIsAuthAction(false))

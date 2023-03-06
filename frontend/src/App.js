@@ -8,6 +8,7 @@ import {BruhNavBar} from "./components/BruhNavBar";
 
 function App() {
 
+    ///TODO
     const dispatch = useDispatch()
     dispatch(setIsAuthAction(localStorage.getItem(ACCESS_TOKEN_LS) != null))
 
