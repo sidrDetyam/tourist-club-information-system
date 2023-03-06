@@ -1,18 +1,17 @@
 import './App.css';
-import {Button} from 'react-bootstrap'
-import {useCallback} from "react";
-import {login} from "./services/AuthService";
+import {useEffect} from "react";
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
+import {useDispatch} from "react-redux";
+import {setIsAuthAction} from "./store/UserReducer";
+import {ACCESS_TOKEN_LS} from "./Consts";
 
 function App() {
 
-    // const onClick = useCallback((event) => {
-    //     const response = login("Alex", "y");
-    //     console.log(response);
-    // }, [])
-    //
-    // onClick(null)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(setIsAuthAction(localStorage.getItem(ACCESS_TOKEN_LS) != null))
+    }, [dispatch])
 
     return (
         <BrowserRouter>

@@ -8,14 +8,14 @@ export const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: <Admin/>
+    },
+    {
+        path: HOME_ROUTE,
+        Component: <Home/>
     }
 ]
 
 export const publicRoutes = [
-    {
-        path: HOME_ROUTE,
-        Component: <Home/>
-    },
     {
         path: LOGIN_ROUTE,
         Component: <Login/>
