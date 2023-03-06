@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.nsu.gemuev.backend.dto.MessageDto;
 import ru.nsu.gemuev.backend.security.entities.User;
 import ru.nsu.gemuev.backend.repositories.UserRepository;
 import ru.nsu.gemuev.backend.security.jwt.JwtAuthentication;
@@ -27,9 +29,9 @@ public class HelloController {
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("hello/user")
-    public ResponseEntity<String> helloUser() {
+    public ResponseEntity<String> helloUser(@RequestBody MessageDto messageDto) {
         final JwtAuthentication authInfo = authService.getAuthInfo();
-        return ResponseEntity.ok("Hello user " + authInfo.getPrincipal() + "!");
+        return ResponseEntity.ok("Hello user " + authInfo.getPrincipal() + "! " + messageDto.getMsg());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
