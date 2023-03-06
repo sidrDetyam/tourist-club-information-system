@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import ru.nsu.gemuev.backend.security.entities.Role;
 
 import javax.crypto.SecretKey;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class JwtProvider {
                                                @NonNull final Set<? extends Role> roles) {
         return Jwts.builder()
                 .setSubject(username)
-                .setExpiration(JwtUtils.dateFromNow(jwtAccessExpirationMinutes))
+                .setExpiration(JwtUtils.dateFromNow(jwtAccessExpirationMinutes, ChronoUnit.MINUTES))
                 .signWith(jwtAccessSecret)
                 .claim("roles", roles)
                 .compact();
@@ -48,7 +49,7 @@ public class JwtProvider {
     public @NonNull String generateRefreshToken(@NonNull final String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setExpiration(JwtUtils.dateFromNow(jwtRefreshExpirationMinutes))
+                .setExpiration(JwtUtils.dateFromNow(jwtRefreshExpirationMinutes, ChronoUnit.DAYS))
                 .signWith(jwtRefreshSecret)
                 .compact();
     }

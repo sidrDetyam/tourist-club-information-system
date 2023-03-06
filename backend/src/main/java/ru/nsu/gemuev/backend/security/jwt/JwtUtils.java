@@ -12,6 +12,8 @@ import java.security.Key;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,10 +57,11 @@ public final class JwtUtils {
                 .getBody();
     }
 
-    public static @NonNull Date dateFromNow(@Range(from = 0, to = Long.MAX_VALUE) final long minutes) {
+    public static @NonNull Date dateFromNow(@Range(from = 0, to = Long.MAX_VALUE) final long count,
+                                            @NonNull ChronoUnit chronoUnit) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant accessExpirationInstant = now
-                .plusMinutes(minutes)
+                .plus(count, chronoUnit)
                 .atZone(ZoneId.systemDefault())
                 .toInstant();
         return Date.from(accessExpirationInstant);

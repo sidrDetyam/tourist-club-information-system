@@ -31,7 +31,10 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                                 .and()
                                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                ).build();
+                )
+                .cors()
+                .and()
+                .build();
     }
 
 }

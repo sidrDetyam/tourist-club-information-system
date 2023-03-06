@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ACCESS_TOKEN_LS} from "../Consts";
 
 export const API_BASE_URL = "http://localhost:8080"
 
@@ -8,7 +9,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('access-token')
+    const token = localStorage.getItem(ACCESS_TOKEN_LS)
     if(token != null){
         config.headers.Authorization = `Bearer ${token}`
     }

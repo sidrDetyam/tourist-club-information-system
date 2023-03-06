@@ -3,6 +3,7 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {authRoutes, publicRoutes} from "../Routes";
 import {HOME_ROUTE, LOGIN_ROUTE} from "../Consts";
+import Login from "./Login";
 
 function extractRoutes(routesArray) {
     return routesArray.map(({path, Component}) => <Route key={path} path={path} element={Component}/>)
@@ -15,6 +16,7 @@ const AppRouter = () => {
         <Routes>
             {isAuth && extractRoutes(authRoutes)}
             {extractRoutes(publicRoutes)}
+            {!isAuth && extractRoutes([{path: LOGIN_ROUTE, Component: <Login/>}])}
 
             <Route path={"/*"} element={<Navigate to={isAuth? HOME_ROUTE : LOGIN_ROUTE}/>} />
         </Routes>
