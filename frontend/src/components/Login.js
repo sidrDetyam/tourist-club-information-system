@@ -1,15 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 import useInput from "../hooks/UseInput";
 import {login} from "../services/AuthService";
 import {useDispatch} from "react-redux";
 import {setIsAuthAction} from "../store/UserReducer";
-import {useNavigate} from "react-router-dom";
-import {HOME_ROUTE} from "../Consts";
 
 const Login = () => {
 
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const username = useInput("")
     const password = useInput("")
@@ -19,12 +16,11 @@ const Login = () => {
         const res = await login(username.value, password.value)
         if(res){
             dispatch(setIsAuthAction(true))
-            navigate(HOME_ROUTE)
         }
         else{
             setError("Error...");
         }
-    }, [dispatch, navigate, password.value, username.value])
+    }, [dispatch, password.value, username.value])
 
 
     return (
