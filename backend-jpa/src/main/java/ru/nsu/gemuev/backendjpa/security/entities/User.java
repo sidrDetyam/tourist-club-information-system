@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.Set;
 
 @Entity(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 public class User {

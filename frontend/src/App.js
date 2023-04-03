@@ -6,7 +6,6 @@ import {setIsAuthAction} from "./store/UserReducer";
 import {ACCESS_TOKEN_LS} from "./Consts";
 import {BruhNavBar} from "./components/BruhNavBar";
 import {useEffect, useState} from "react";
-import {Col, Container, Row, Spinner} from "react-bootstrap";
 import FullPageLoading from "./components/FullPageLoading";
 
 function App() {
@@ -18,7 +17,7 @@ function App() {
         setTimeout(() => {
             dispatch(setIsAuthAction(localStorage.getItem(ACCESS_TOKEN_LS) != null))
             setLoading(false)
-        }, 3000)
+        }, 0)
 
     }, [dispatch])
 
