@@ -1,6 +1,7 @@
 import Admin from "./components/Admin";
 import {ADMIN_ROUTE, HOME_ROUTE} from "./Consts";
 import Home from "./components/Home";
+import TestLogin from "./components/TestLogin";
 
 export const authRoutes = [
     {
@@ -14,8 +15,8 @@ export const authRoutes = [
 ]
 
 export const publicRoutes = [
-    // {
-    //     path: LOGIN_ROUTE,
-    //     Component: <Login/>
-    // }
+    {
+        path: "/test",
+        Component: <TestLogin/>
+    }
 ]
