@@ -5,7 +5,7 @@ import {Button} from "react-bootstrap";
 const NavBarButton = ({route, title}) => {
     const navigate = useNavigate();
     const cb = useCallback(() => navigate(route), [route, navigate])
-    return <Button onClick={cb}>{title}</Button>
+    return <Button variant={"outline-secondary"} onClick={cb}>{title}</Button>
 }
 
 export default NavBarButton;

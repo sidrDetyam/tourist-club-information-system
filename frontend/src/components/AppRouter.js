@@ -2,9 +2,9 @@ import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
-import Login from "./Login";
+import Login from "../pages/Login";
 import Admin from "./Admin";
-import Home from "./Home";
+import Home from "../pages/Home";
 import Sections from "../pages/Sections";
 import SectionGroups from "../pages/SectionGroups";
 

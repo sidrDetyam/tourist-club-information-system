@@ -1,12 +1,11 @@
 package ru.nsu.gemuev.backendjpa.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "sections")
@@ -18,4 +17,10 @@ public class Section {
 
     @Column(name = "name")
     private String name;
+
+    @OneToOne(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SectionManager sectionManager;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SectionGroup> sectionGroup;
 }

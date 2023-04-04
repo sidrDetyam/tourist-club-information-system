@@ -39,6 +39,10 @@ export const BruhNavBar = () => {
 
                             <NavBarButton route={SECTION_GROUPS_ROUTE} title={"Группы"}/>
 
+                            <NavBarButton route={HOME_ROUTE} title={"Кабинет тренера"}/>
+
+                            <NavBarButton route={HOME_ROUTE} title={"Кабинет админа"}/>
+
                             <Button onClick={logOut} className={"ml-2"}>
                                 Выйти
                             </Button>
