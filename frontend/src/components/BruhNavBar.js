@@ -2,12 +2,13 @@ import React, {useCallback} from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {NavLink, useNavigate} from "react-router-dom";
-import {ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SECTIONS_ROUTE} from "../Consts";
+import {HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
 import {Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsAuthAction} from "../store/UserReducer";
 import {clearTokens} from "../services/AuthService";
+import NavBarButton from "./NavBarButton";
 
 export const BruhNavBar = () => {
     const dispatch = useDispatch()
@@ -35,6 +36,8 @@ export const BruhNavBar = () => {
                             <Button onClick={() => navigate(SECTIONS_ROUTE)} className={"ml-2"}>
                                 Секции
                             </Button>
+
+                            <NavBarButton route={SECTION_GROUPS_ROUTE} title={"Группы"}/>
 
                             <Button onClick={logOut} className={"ml-2"}>
                                 Выйти

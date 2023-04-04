@@ -27,7 +27,7 @@ public class SectionController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/to-user")
+    @GetMapping("/user")
     public ResponseEntity<SectionsListDto> allToUser(){
         final String username = authService.getAuthInfo().getPrincipal();
         try{

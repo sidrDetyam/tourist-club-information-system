@@ -12,6 +12,9 @@ public class SectionGroup {
     @Id
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "section_id")
     private Section section;

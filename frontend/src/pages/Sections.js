@@ -1,41 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {Tab, Tabs} from "react-bootstrap";
 import api from "../http/Api";
-import {setIsAuthAction} from "../store/UserReducer";
-import {ACCESS_TOKEN_LS} from "../Consts";
 
-function VerticalLink({ url, label }) {
-    return (
-        <a href={url} style={{ display: 'block', margin: '10px 0' }}>
-            {label}
-        </a>
-    );
-}
-
-function Sections(props) {
+function Sections() {
     const [activeTab, setActiveTab] = useState('tab1');
 
+    const [allSections, setAllSections] = useState([])
+    const [userSections, setUserSections] = useState([])
+
     useEffect(() => {
-        api.get("/sections/all").then(value => {
-            console.log(value.data)
-            console.log(typeof value.data)
-        })
+        api.get("/sections/all").then(value => setAllSections(value.data.sections))
+        api.get("/sections/user").then(value => setUserSections(value.data.sections))
     }, [])
 
     return (
         <Tabs activeKey={activeTab} onSelect={(tab) => setActiveTab(tab)}>
             <Tab eventKey="tab1" title="Мои секции">
                 <div>
-                    <VerticalLink url="https://example.com/page1" label="Link 1"/>
-                    <VerticalLink url="https://example.com/page2" label="Link 2"/>
-                    <VerticalLink url="https://example.com/page3" label="Link 3"/>
+                    {userSections.map((section) => <h5 key={section}>{section}</h5>)}
                 </div>
             </Tab>
             <Tab eventKey="tab2" title="Все секции">
                 <div>
-                    <VerticalLink url="https://example.com/page1" label="Link 4"/>
-                    <VerticalLink url="https://example.com/page2" label="Link 5"/>
-                    <VerticalLink url="https://example.com/page3" label="Link 6"/>
+                    {allSections.map((section) => <h5 key={section}>{section}</h5>)}
                 </div>
             </Tab>
         </Tabs>
