@@ -1,17 +1,19 @@
 package ru.nsu.gemuev.backendjpa.testjpa;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 @Entity
 @Table(name = "b")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+//@ToString(of = "id")
 public class B {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

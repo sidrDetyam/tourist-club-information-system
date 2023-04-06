@@ -7,7 +7,8 @@ import java.util.Set;
 
 @Entity(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class User {
     @Id

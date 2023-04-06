@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,9 +14,17 @@ import java.util.Set;
 @Data
 public class A {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "a", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<B> bSet;
+    @Column(name = "foo")
+    private String foo;
+
+    @OneToMany(mappedBy = "a", cascade = CascadeType.PERSIST)
+    private List<B> bSet;
+
+    public void removeB(B b){
+        bSet.remove(b);
+        b.setA(null);
+    }
 }

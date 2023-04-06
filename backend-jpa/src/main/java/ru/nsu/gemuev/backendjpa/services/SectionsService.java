@@ -4,9 +4,11 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+import ru.nsu.gemuev.backendjpa.dto.SectionDto;
 import ru.nsu.gemuev.backendjpa.entity.Section;
 import ru.nsu.gemuev.backendjpa.entity.SectionGroup;
 import ru.nsu.gemuev.backendjpa.entity.Toutist;
+import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
 import ru.nsu.gemuev.backendjpa.repositories.SectionsRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
 
@@ -21,7 +23,7 @@ public class SectionsService {
     private final TouristRepository touristRepository;
 
     @Transactional
-    public @NonNull List<String> getAllSectionsNames(){
+    public @NonNull List<String> getAllSectionsNames() {
         return StreamSupport
                 .stream(sectionsRepository.findAll().spliterator(), false)
                 .map(Section::getName)
@@ -38,6 +40,14 @@ public class SectionsService {
         return tourist.getSectionGroups().stream()
                 .map(SectionGroup::getSection)
                 .map(Section::getName)
+                .toList();
+    }
+
+    @Transactional
+    public @NonNull List<SectionDto> getAllSectionsInfo() {
+        return StreamSupport
+                .stream(sectionsRepository.findAll().spliterator(), false)
+                .map(SectionMapper.INSTANCE::toDto)
                 .toList();
     }
 }

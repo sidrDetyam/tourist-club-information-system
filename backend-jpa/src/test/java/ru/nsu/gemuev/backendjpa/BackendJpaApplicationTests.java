@@ -17,19 +17,18 @@ class BackendJpaApplicationTests {
     @Autowired
     private BRep bRep;
 
-//    @Test
-//    void init() {
-//        A a = new A();
-//        //aRep.save(a);
-//
-//        B b = new B();
-//        b.setA(a);
-//
-//        bRep.save(b);
-//    }
+    @Test
+    void init() {
+        A a = new A();
+        //aRep.save(a);
+
+        B b = new B();
+        b.setA(a);
+
+        bRep.save(b);
+    }
 
     @Test
-    @Transactional
     void delete() {
         var a = aRep.findAll().iterator().next();
         System.out.println(a.getBSet());

@@ -1,7 +1,6 @@
 package ru.nsu.gemuev.backendjpa.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.nsu.gemuev.backendjpa.security.entities.User;

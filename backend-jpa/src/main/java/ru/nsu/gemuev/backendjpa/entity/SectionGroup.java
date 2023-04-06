@@ -1,13 +1,15 @@
 package ru.nsu.gemuev.backendjpa.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "section_groups")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class SectionGroup {
     @Id
     private Long id;
