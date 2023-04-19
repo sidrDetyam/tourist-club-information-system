@@ -3,11 +3,13 @@ package ru.nsu.gemuev.backendjpa.services;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
 import ru.nsu.gemuev.backendjpa.entity.Section;
 import ru.nsu.gemuev.backendjpa.entity.SectionGroup;
 import ru.nsu.gemuev.backendjpa.entity.Toutist;
+//import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
 import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
 import ru.nsu.gemuev.backendjpa.repositories.SectionsRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
@@ -21,6 +23,7 @@ import java.util.stream.StreamSupport;
 public class SectionsService {
     private final SectionsRepository sectionsRepository;
     private final TouristRepository touristRepository;
+    private final SectionMapper sectionMapper;
 
     @Transactional
     public @NonNull List<String> getAllSectionsNames() {
@@ -47,7 +50,7 @@ public class SectionsService {
     public @NonNull List<SectionDto> getAllSectionsInfo() {
         return StreamSupport
                 .stream(sectionsRepository.findAll().spliterator(), false)
-                .map(SectionMapper.INSTANCE::toDto)
+                .map(sectionMapper::toDto)
                 .toList();
     }
 }

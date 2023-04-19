@@ -1,9 +1,12 @@
 package ru.nsu.gemuev.backendjpa;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.nsu.gemuev.backendjpa.services.SectionsService;
 import ru.nsu.gemuev.backendjpa.testjpa.A;
 import ru.nsu.gemuev.backendjpa.testjpa.ARep;
 import ru.nsu.gemuev.backendjpa.testjpa.B;
@@ -13,24 +16,18 @@ import ru.nsu.gemuev.backendjpa.testjpa.BRep;
 class BackendJpaApplicationTests {
 
     @Autowired
-    private ARep aRep;
-    @Autowired
-    private BRep bRep;
-
-    @Test
-    void init() {
-        A a = new A();
-        //aRep.save(a);
-
-        B b = new B();
-        b.setA(a);
-
-        bRep.save(b);
-    }
+    private SectionsService sectionsService;
 
     @Test
     void delete() {
-        var a = aRep.findAll().iterator().next();
-        System.out.println(a.getBSet());
+        var sections = sectionsService.getAllSectionsInfo();
+        ObjectMapper objectMapper = new ObjectMapper();
+        sections.forEach(s -> {
+            try {
+                System.out.println(objectMapper.writeValueAsString(s));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

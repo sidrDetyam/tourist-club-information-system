@@ -11,6 +11,6 @@ public class SectionDto {
     private Long sectionId;
     private String name;
     private String description;
-    private ManagerDto manager;
-    private Set<TrainerDto> trainers;
+    private UserDto manager;
+    private Set<UserDto> trainers;
 }
