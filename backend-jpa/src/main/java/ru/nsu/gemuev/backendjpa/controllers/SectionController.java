@@ -1,13 +1,14 @@
 package ru.nsu.gemuev.backendjpa.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.nsu.gemuev.backendjpa.dto.EditSectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionsListDto;
+import ru.nsu.gemuev.backendjpa.dto.StatusDto;
 import ru.nsu.gemuev.backendjpa.security.services.AuthService;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
 
@@ -46,5 +47,11 @@ public class SectionController {
     public ResponseEntity<List<SectionDto>> allInfo(){
         final List<SectionDto> info = sectionsService.getAllSectionsInfo();
         return new ResponseEntity<>(info, HttpStatus.OK);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<StatusDto> editSection(@RequestBody @NonNull EditSectionDto editSectionDto){
+        sectionsService.editSection(editSectionDto, authService.getAuthInfo().getPrincipal());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
