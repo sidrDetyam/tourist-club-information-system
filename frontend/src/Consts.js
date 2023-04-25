@@ -13,3 +13,4 @@ export const SECTION_GROUPS_ROUTE = '/section-groups'
 
 export const ACCESS_TOKEN_LS = 'access-token'
 export const REFRESH_TOKEN_LS = 'refresh-token'
+export const USER_INFO = 'user-info'

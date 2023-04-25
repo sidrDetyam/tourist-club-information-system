@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.nsu.gemuev.backendjpa.dto.SectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionsListDto;
 import ru.nsu.gemuev.backendjpa.security.services.AuthService;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -38,5 +40,11 @@ public class SectionController {
         catch (NoSuchElementException ignore){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/all-info")
+    public ResponseEntity<List<SectionDto>> allInfo(){
+        final List<SectionDto> info = sectionsService.getAllSectionsInfo();
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
 }

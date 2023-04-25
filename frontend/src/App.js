@@ -16,6 +16,7 @@ function App() {
     useEffect(() => {
         setTimeout(() => {
             dispatch(setIsAuthAction(localStorage.getItem(ACCESS_TOKEN_LS) != null))
+            // dispatch(setUserInfo(localStorage.getItem(USER_INFO)))
             setLoading(false)
         }, 0)
 
