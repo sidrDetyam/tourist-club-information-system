@@ -3,7 +3,7 @@ package ru.nsu.gemuev.backendjpa.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,5 +12,5 @@ public class SectionDto {
     private String name;
     private String description;
     private UserDto manager;
-    private Set<UserDto> trainers;
+    private List<UserDto> trainers;
 }

@@ -6,19 +6,14 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.EditSectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
-import ru.nsu.gemuev.backendjpa.entity.Section;
-import ru.nsu.gemuev.backendjpa.entity.SectionGroup;
-import ru.nsu.gemuev.backendjpa.entity.SectionManager;
-import ru.nsu.gemuev.backendjpa.entity.Toutist;
+import ru.nsu.gemuev.backendjpa.entity.*;
 import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
 import ru.nsu.gemuev.backendjpa.repositories.ManagerRepository;
 import ru.nsu.gemuev.backendjpa.repositories.SectionsRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
+import ru.nsu.gemuev.backendjpa.repositories.TrainersRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -27,6 +22,7 @@ public class SectionsService {
     private final SectionsRepository sectionsRepository;
     private final TouristRepository touristRepository;
     private final ManagerRepository managerRepository;
+    private final TrainersRepository trainersRepository;
     private final SectionMapper sectionMapper;
 
     @Transactional
@@ -59,19 +55,38 @@ public class SectionsService {
     }
 
     @Transactional
-    public void editSection(@NonNull EditSectionDto editSectionDto,
-                            @NonNull String managerUsername){
+    public void editSection(final @NonNull EditSectionDto editSectionDto,
+                            final @NonNull String managerUsername) {
 
         final SectionManager manager = managerRepository.findByUsername(managerUsername).orElseThrow();
-        var a = new ArrayList<Section>(manager.getSections());
         final Section section = manager.getSections().stream()
                 .filter(s -> Objects.equals(s.getId(), editSectionDto.getId()))
                 .findFirst()
                 .orElseThrow();
 
-        if(editSectionDto.getName() != null){
+        if (editSectionDto.getName() != null) {
             section.setName(editSectionDto.getName());
         }
-        sectionsRepository.save(section);
+        if (editSectionDto.getDescription() != null) {
+            section.setDescription(editSectionDto.getDescription());
+        }
+        if (editSectionDto.getTrainersId() != null) {
+//            final List<Trainer> newTrainers = new ArrayList<>(section.getTrainers()
+//                    .stream()
+//                    .filter(trainer -> editSectionDto.getTrainersId().contains(trainer.getId()))
+//                    .toList());
+
+//            newTrainers.forEach(t -> t.setSection(null));
+
+            trainersRepository
+                    .findAllBySectionId(section.getId())
+                    .stream().filter(t -> !editSectionDto.getTrainersId().contains(t.getId()))
+                    .forEach(t -> t.setSection(null));
+
+            StreamSupport.stream(trainersRepository
+                    .findAllById(editSectionDto.getTrainersId())
+                    .spliterator(), false)
+                    .forEach(t -> t.setSection(section));
+        }
     }
 }

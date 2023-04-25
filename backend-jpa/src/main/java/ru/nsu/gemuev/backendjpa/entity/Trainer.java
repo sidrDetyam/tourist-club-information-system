@@ -2,12 +2,14 @@ package ru.nsu.gemuev.backendjpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "trainers")
 @Getter
+@Setter
 public class Trainer extends Toutist{
 
     @ManyToOne(cascade = CascadeType.PERSIST)

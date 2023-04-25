@@ -20,7 +20,7 @@ public class Section {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 100000)
     private String description;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -29,7 +29,4 @@ public class Section {
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SectionGroup> sectionGroup;
-
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Trainer> trainers;
 }

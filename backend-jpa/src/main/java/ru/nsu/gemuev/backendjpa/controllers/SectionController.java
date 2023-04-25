@@ -5,12 +5,10 @@ import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.nsu.gemuev.backendjpa.dto.EditSectionDto;
-import ru.nsu.gemuev.backendjpa.dto.SectionDto;
-import ru.nsu.gemuev.backendjpa.dto.SectionsListDto;
-import ru.nsu.gemuev.backendjpa.dto.StatusDto;
+import ru.nsu.gemuev.backendjpa.dto.*;
 import ru.nsu.gemuev.backendjpa.security.services.AuthService;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
+import ru.nsu.gemuev.backendjpa.services.TouristService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,6 +19,7 @@ import java.util.NoSuchElementException;
 public class SectionController {
 
     private final SectionsService sectionsService;
+    private final TouristService touristService;
     private final AuthService authService;
 
     @GetMapping("/all")
@@ -46,6 +45,7 @@ public class SectionController {
     @GetMapping("/all-info")
     public ResponseEntity<List<SectionDto>> allInfo(){
         final List<SectionDto> info = sectionsService.getAllSectionsInfo();
+        info.forEach(i -> i.setTrainers(touristService.getSectionTrainers(i.getSectionId())));
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
@@ -53,5 +53,11 @@ public class SectionController {
     public ResponseEntity<StatusDto> editSection(@RequestBody @NonNull EditSectionDto editSectionDto){
         sectionsService.editSection(editSectionDto, authService.getAuthInfo().getPrincipal());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/all-trainers")
+    public ResponseEntity<List<UserDto>> allTrainers(){
+        final var trainers = touristService.getAllTrainers();
+        return new ResponseEntity<>(trainers, HttpStatus.OK);
     }
 }

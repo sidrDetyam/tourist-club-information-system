@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Tab, Tabs} from "react-bootstrap";
+import {Container, Tab, Tabs} from "react-bootstrap";
 import api from "../http/Api";
-import UserCard from "../components/UserCard";
-import EditIcon from "../components/icons/EditIcon";
-import XIcon from "../components/icons/XIcon";
-import TrashIcon from "../components/icons/TrashIcon";
 import SectionTab from "../components/SectionTab";
 
 function Sections() {
@@ -14,17 +10,13 @@ function Sections() {
     // const [userSections, setUserSections] = useState([])
 
     const [sectionInfo, setSectionsInfo] = useState([])
-    const [userInfo, setUserInfo] = useState({})
 
-    const findIndById = (id) => {
-        return sectionInfo.findIndex(info => info.sectionId === id);
+    const [trainers, setTrainers] = useState([])
+    const [state, setState] = useState(1);
+    function updateCb() {
+        setState(prevState => prevState + 1);
     }
 
-    const onEditClick = (id) => {
-        const ind = findIndById(id);
-        sectionInfo[ind].isEdit = !sectionInfo[ind].isEdit;
-        setSectionsInfo([...sectionInfo]);
-    }
 
     useEffect(() => {
         // api.get("/sections/all").then(value => setAllSections(value.data.sections))
@@ -32,8 +24,6 @@ function Sections() {
 
         api.get("users/auth-info")
             .then(user => {
-                console.log(user.data);
-                setUserInfo(user.data)
                 api.get("sections/all-info").then(value => {
                     const data = value.data;
                     data.forEach(info => {
@@ -50,14 +40,16 @@ function Sections() {
 
             })
             .catch(error => console.log(error))
-    }, [])
+
+        api.get("sections/all-trainers").then(t => setTrainers(t.data))
+    }, [state])
 
     return (
         <Container>
             <Tabs activeKey={activeTab} onSelect={tab => setActiveTab(tab)}>
                 {sectionInfo.map(info => (
                     <Tab eventKey={info.sectionId} title={info.name} key={info.sectionId}>
-                        <SectionTab info_={info}/>
+                        <SectionTab info={info} updateCb={updateCb} trainers={trainers}/>
                     </Tab>
                 ))}
             </Tabs>
