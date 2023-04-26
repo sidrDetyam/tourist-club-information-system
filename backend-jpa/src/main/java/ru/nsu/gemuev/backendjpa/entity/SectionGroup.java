@@ -17,7 +17,7 @@ public class SectionGroup {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "section_id")
     private Section section;
 }

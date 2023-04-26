@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
-import {useParams} from "react-router-dom";
-import {Button} from "react-bootstrap";
+import React, {useCallback, useState} from 'react';
+import {Button, Col, Container, Row} from "react-bootstrap";
 import PlusIcon from "../components/icons/PlusIcon";
 import TrashIcon from "../components/icons/TrashIcon";
+import EditIcon from "../components/icons/EditIcon";
+import UploadIcon from "../components/icons/UploadIcon";
+import UserCard from "../components/UserCard";
 
 const origindata = [
     {
@@ -16,14 +18,14 @@ const origindata = [
         id: 1,
         day: 1,
         time: 'johndoe@email.com',
-        type: 'раз',
+        type: 'два',
         place: 'Frontend Developer',
     },
     {
         id: 2,
         day: 2,
         time: 'johndoe@email.com',
-        type: 'раз',
+        type: 'три',
         place: 'Frontend Developer',
     },
 ]
@@ -40,15 +42,19 @@ const days = [
 
 
 const SectionGroup = () => {
-    const [tableData, setTableData] = useState(origindata)
+    const [tableData, setTableDataRaw] = useState(origindata)
 
-    const onChangeInput = (e, id) => {
+    const [isTableEdit, setTableEdit] = useState(false)
+
+    const setTableData = useCallback((data) => {
+        data.sort((a, b) => a.day - b.day)
+        setTableDataRaw(data)
+    }, [setTableDataRaw])
+
+    const onChangeInput = (e, index) => {
         const {name, value} = e.target
-
-        const editData = tableData.map((item) =>
-            item.id === id && name ? {...item, [name]: value} : item
-        )
-
+        const editData = [...tableData]
+        editData[index][name] = value
         setTableData(editData)
     }
 
@@ -68,74 +74,157 @@ const SectionGroup = () => {
         }
     }
 
-    return (
-        <div className="container">
-            <h1 className="title">ReactJS Editable Table</h1>
-            <table className={"table"}>
-                <thead>
-                <tr>
-                    <th>День</th>
-                    <th>Время</th>
-                    <th>Тип</th>
-                    <th>Место</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {tableData.map(({id, day, time, type, place}, index) => (
-                    <tr key={id}>
-                        <td>
-                            {/*<input*/}
-                            {/*    name="day"*/}
-                            {/*    value={day}*/}
-                            {/*    type="text"*/}
-                            {/*    onChange={(e) => onChangeInput(e, id)}*/}
-                            {/*    placeholder="Type Name"*/}
-                            {/*/>*/}
-                            <select name={"days"} onChange={onDayChange(index)} value={day}>
-                                {days.map((value, index) => (
-                                    <option key={value} value={index}>{value}</option>
-                                ))}
-                            </select>
+    const onAddClicked = () => {
+        const newItem = {id: null, day: 0, time: "", type: "", place: ""}
+        setTableData([...tableData, newItem])
+    }
 
-                        </td>
-                        <td>
-                            <input
-                                name="time"
-                                value={time}
-                                type="text"
-                                onChange={(e) => onChangeInput(e, id)}
-                                placeholder="Type Email"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                name="type"
-                                type="text"
-                                value={type}
-                                onChange={(e) => onChangeInput(e, id)}
-                                placeholder="Type Position"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                name="place"
-                                type="text"
-                                value={place}
-                                onChange={(e) => onChangeInput(e, id)}
-                                placeholder="Type Position"
-                            />
-                        </td>
-                        <td>
-                            <Button variant={"danger"} onClick={onDeleteClicked(index)}>
-                                <TrashIcon size={16}/>
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
+    return (
+
+        <Container>
+            <Row className={"mt-2"}>
+                <Col md={6}>
+                    <h2>Группа 20209, Конная секция</h2>
+                </Col>
+            </Row>
+
+            <Row className={"mt-5"}>
+                <Col md={6} className="text">
+                    <h3>Расписание</h3>
+                </Col>
+            </Row>
+
+            <Row className={"mt-1"}>
+                <Col md={12}>
+
+                    {!isTableEdit &&
+                        <>
+                            <table className={"table"}>
+                                <thead>
+                                <tr>
+                                    <th>День</th>
+                                    <th>Время</th>
+                                    <th>Тип занятия</th>
+                                    <th>Место</th>
+                                    <th>
+                                        <Button onClick={() => setTableEdit(true)}>
+                                            <EditIcon size={16}/>
+                                        </Button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {tableData.map(({_, day, time, type, place}, index) => (
+                                    <tr key={index}>
+                                        <td>{days[day]}</td>
+                                        <td>{time}</td>
+                                        <td>{type}</td>
+                                        <td>{place}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </>
+                    }
+
+                    {isTableEdit &&
+                        <>
+                            <table className={"table"}>
+                                <thead>
+                                <tr>
+                                    <th>День</th>
+                                    <th>Время</th>
+                                    <th>Тип занятия</th>
+                                    <th>Место</th>
+                                    <th>
+                                        <Button variant={"outline-success"}>
+                                            <UploadIcon size={16}/>
+                                        </Button>
+                                        <Button variant={"danger"} onClick={() => setTableEdit(false)}>
+                                            <TrashIcon size={16}/>
+                                        </Button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {tableData.map(({_, day, time, type, place}, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <select name={"days"} onChange={onDayChange(index)} value={day}>
+                                                {days.map((value, index) => (
+                                                    <option key={value} value={index}>{value}</option>
+                                                ))}
+                                            </select>
+
+                                        </td>
+                                        <td>
+                                            <input
+                                                name="time" value={time} type="text"
+                                                onChange={(e) => onChangeInput(e, index)}
+                                                placeholder="Время"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                name="type" type="text" value={type}
+                                                onChange={(e) => onChangeInput(e, index)}
+                                                placeholder="Тип"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                name="place" type="text" value={place}
+                                                onChange={(e) => onChangeInput(e, index)}
+                                                placeholder="Место"
+                                            />
+                                        </td>
+                                        <td>
+                                            <Button variant={"danger"} onClick={onDeleteClicked(index)}>
+                                                <TrashIcon size={16}/>
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+
+                            <Row className={"align-items-center justify-content-center"}>
+                                <div style={{width: 20, height: 20}}>
+                                    <Button variant={"primary"} onClick={onAddClicked}>
+                                        <PlusIcon size={16}/>
+                                    </Button>
+                                </div>
+                            </Row>
+
+                        </>
+                    }
+                </Col>
+            </Row>
+
+            <Row className={"mt-5"}>
+                <Col md={6} className="text">
+                    <h3>Тренер</h3>
+                </Col>
+            </Row>
+
+            <Row>
+                <UserCard name={'Имя'} surname={"Фамилия"}/>
+            </Row>
+
+            <Row className={"mt-5"}>
+                <Col md={6} className="text">
+                    <h3>Участники</h3>
+                </Col>
+            </Row>
+
+            <Row>
+                <UserCard name={'Имя'} surname={"Фамилия"}/>
+                <UserCard name={'Имя'} surname={"Фамилия"}/>
+                <UserCard name={'Имя'} surname={"Фамилия"}/>
+                <UserCard name={'Имя'} surname={"Фамилия"}/>
+            </Row>
+
+        </Container>
     )
 };
 

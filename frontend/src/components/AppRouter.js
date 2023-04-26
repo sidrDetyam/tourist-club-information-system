@@ -13,14 +13,14 @@ import Login from "../pages/Login";
 import Admin from "./Admin";
 import Home from "../pages/Home";
 import Sections from "../pages/Sections";
-import SectionGroups from "../pages/SectionGroups";
+import SectionGroupsList from "../pages/SectionGroupsList";
 import SectionGroup from "../pages/SectionGroup";
 
 const authRoutes = [
     {path: ADMIN_ROUTE, Component: <Admin/>},
     {path: HOME_ROUTE, Component: <Home/>},
     {path: SECTIONS_ROUTE, Component: <Sections/>},
-    // {path: SECTION_GROUPS_ROUTE, Component: <SectionGroups/>},
+    // {path: SECTION_GROUPS_ROUTE, Component: <SectionGroupsList/>},
     // {path: SECTION_GROUP_ROUTE + "/*", Component: <SectionGroup/>}
 ]
 
@@ -40,7 +40,7 @@ const AppRouter = () => {
             {isAuth && extractRoutes(authRoutes)}
             {extractRoutes(publicRoutes)}
 
-            <Route path={SECTION_GROUPS_ROUTE} element={<SectionGroups/>}>
+            <Route path={SECTION_GROUPS_ROUTE} element={<SectionGroupsList/>}>
             </Route>
 
             <Route path={SECTION_GROUP_ROUTE + "/:id"} element={<SectionGroup/>}>

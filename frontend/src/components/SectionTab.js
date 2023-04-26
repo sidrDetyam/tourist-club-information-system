@@ -5,7 +5,7 @@ import TrashIcon from "./icons/TrashIcon";
 import UserCard from "./UserCard";
 import useInput from "../hooks/UseInput";
 import api from "../http/Api";
-import EyeIcon from "./icons/EyeIcon";
+import UploadIcon from "./icons/UploadIcon";
 
 const SectionTab = ({info, updateCb, trainers}) => {
 
@@ -81,7 +81,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
                             :
                             <>
                                 <Button variant={"success"} onClick={onAcceptClick}>
-                                    <EyeIcon size={20}/>
+                                    <UploadIcon size={20}/>
                                 </Button>
                                 <Button variant={"danger"} onClick={onEditClick}>
                                     <TrashIcon size={20}/>
