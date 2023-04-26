@@ -6,12 +6,12 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.EditSectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
+import ru.nsu.gemuev.backendjpa.dto.SectionGroupDto;
 import ru.nsu.gemuev.backendjpa.entity.*;
+import ru.nsu.gemuev.backendjpa.mappers.ScheduleItemMapper;
+import ru.nsu.gemuev.backendjpa.mappers.SectionGroupMapper;
 import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
-import ru.nsu.gemuev.backendjpa.repositories.ManagerRepository;
-import ru.nsu.gemuev.backendjpa.repositories.SectionsRepository;
-import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
-import ru.nsu.gemuev.backendjpa.repositories.TrainersRepository;
+import ru.nsu.gemuev.backendjpa.repositories.*;
 
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -24,6 +24,9 @@ public class SectionsService {
     private final ManagerRepository managerRepository;
     private final TrainersRepository trainersRepository;
     private final SectionMapper sectionMapper;
+    private final SectionGroupRepository sectionGroupRepository;
+    private final SectionGroupMapper sectionGroupMapper;
+    private final ScheduleItemMapper scheduleItemMapper;
 
     @Transactional
     public @NonNull List<String> getAllSectionsNames() {
@@ -52,6 +55,13 @@ public class SectionsService {
                 .stream(sectionsRepository.findAll().spliterator(), false)
                 .map(sectionMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public @NonNull SectionGroupDto getSectionGroup(final long id) {
+        return sectionGroupMapper.toDto(sectionGroupRepository
+                .findById(id)
+                .orElseThrow());
     }
 
     @Transactional
@@ -84,9 +94,21 @@ public class SectionsService {
                     .forEach(t -> t.setSection(null));
 
             StreamSupport.stream(trainersRepository
-                    .findAllById(editSectionDto.getTrainersId())
-                    .spliterator(), false)
+                            .findAllById(editSectionDto.getTrainersId())
+                            .spliterator(), false)
                     .forEach(t -> t.setSection(section));
+        }
+    }
+
+    @Transactional
+    public void editSchedule(final @NonNull SectionGroupDto dto){
+        final SectionGroup group = sectionGroupRepository.findById(dto.getId()).orElseThrow();
+        group.getScheduleItems().clear();
+        for(var itemDto : dto.getSchedule()){
+            final var item = scheduleItemMapper.toScheduleItem(itemDto);
+            item.setId(null);
+            item.setSectionGroup(group);
+            group.getScheduleItems().add(item);
         }
     }
 }

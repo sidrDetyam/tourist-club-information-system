@@ -15,6 +15,7 @@ import java.util.Set;
 @Setter
 public class Section {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name")

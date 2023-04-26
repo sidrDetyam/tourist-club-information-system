@@ -60,4 +60,16 @@ public class SectionController {
         final var trainers = touristService.getAllTrainers();
         return new ResponseEntity<>(trainers, HttpStatus.OK);
     }
+
+    @PostMapping("/section-group-info")
+    public ResponseEntity<SectionGroupDto> getGroupInfo(@RequestBody RequestIdDto idDto){
+        return new ResponseEntity<>(sectionsService.getSectionGroup(idDto.getId()),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/edit-schedule")
+    public ResponseEntity<StatusDto> editSchedule(@RequestBody SectionGroupDto sectionGroupDto){
+        sectionsService.editSchedule(sectionGroupDto);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 }

@@ -1,10 +1,12 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Button, Col, Container, Row} from "react-bootstrap";
 import PlusIcon from "../components/icons/PlusIcon";
 import TrashIcon from "../components/icons/TrashIcon";
 import EditIcon from "../components/icons/EditIcon";
 import UploadIcon from "../components/icons/UploadIcon";
 import UserCard from "../components/UserCard";
+import api from "../http/Api";
+import {useParams} from "react-router-dom";
 
 const origindata = [
     {
@@ -42,7 +44,12 @@ const days = [
 
 
 const SectionGroup = () => {
-    const [tableData, setTableDataRaw] = useState(origindata)
+
+    const params = useParams();
+    const groupId = params.id
+    const [info, setInfo] = useState({})
+
+    const [tableData, setTableDataRaw] = useState([])
 
     const [isTableEdit, setTableEdit] = useState(false)
 
@@ -50,6 +57,29 @@ const SectionGroup = () => {
         data.sort((a, b) => a.day - b.day)
         setTableDataRaw(data)
     }, [setTableDataRaw])
+
+    const [state, setState] = useState(0)
+    useEffect(() => {
+            api.post("sections/section-group-info", {id: groupId}).then(value => {
+                console.log(value.data)
+                setTableData(value.data.schedule)
+            }, error => console.log("failed to load sections info", error))
+                .catch(error => console.log(error))
+        }
+        , [groupId, setInfo, setTableData, state])
+
+    const onUploadScheduleClick = () => {
+        const changes = {
+            id: groupId,
+            schedule: tableData
+        }
+        api.post("/sections/edit-schedule", changes)
+            .then(value => {
+                console.log(value)
+                setTableEdit(false)
+                setState(s => s+1)
+            })
+    }
 
     const onChangeInput = (e, index) => {
         const {name, value} = e.target
@@ -137,7 +167,7 @@ const SectionGroup = () => {
                                     <th>Тип занятия</th>
                                     <th>Место</th>
                                     <th>
-                                        <Button variant={"outline-success"}>
+                                        <Button variant={"outline-success"} onClick={onUploadScheduleClick}>
                                             <UploadIcon size={16}/>
                                         </Button>
                                         <Button variant={"danger"} onClick={() => setTableEdit(false)}>
