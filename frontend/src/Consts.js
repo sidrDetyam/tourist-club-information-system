@@ -9,6 +9,8 @@ export const SECTIONS_ROUTE = '/sections';
 
 export const SECTION_GROUPS_ROUTE = '/section-groups'
 
+export const SECTION_GROUP_ROUTE = '/section-group'
+
 ////
 
 export const ACCESS_TOKEN_LS = 'access-token'

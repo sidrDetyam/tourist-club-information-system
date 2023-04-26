@@ -30,6 +30,7 @@ function Sections() {
                         info.canEdit = info.manager.id === user.data.id;
                         info.isEdit = false;
                     })
+                    data.sort((a, b) => a.sectionId - b.sectionId)
 
                     setSectionsInfo(data);
                     if (data.length > 0) {
