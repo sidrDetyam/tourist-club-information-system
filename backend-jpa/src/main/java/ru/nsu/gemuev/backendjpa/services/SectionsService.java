@@ -39,7 +39,7 @@ public class SectionsService {
     @Transactional
     public @NonNull List<String> getTouristSectionsNames(@NonNull final String username)
             throws NoSuchElementException {
-        final Toutist tourist = touristRepository.findByUsername(username)
+        final Tourist tourist = touristRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("This tourist doesn`t exist"));
 
         //bruh N+1

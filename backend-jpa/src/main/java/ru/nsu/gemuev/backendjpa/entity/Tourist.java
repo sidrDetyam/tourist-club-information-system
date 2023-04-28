@@ -11,7 +11,11 @@ import java.util.Set;
 @Table(name = "tourists")
 @NoArgsConstructor
 @Getter
-public class Toutist extends User {
+public class Tourist extends User {
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private TouristCategory category;
 
     @ManyToMany
     @JoinTable(name = "tourists_section_groups",

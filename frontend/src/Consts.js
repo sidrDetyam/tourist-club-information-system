@@ -11,6 +11,9 @@ export const SECTION_GROUPS_ROUTE = '/section-groups'
 
 export const SECTION_GROUP_ROUTE = '/section-group'
 
+export const EDIT_USERS_ROUTE = '/edit-users'
+
+
 ////
 
 export const ACCESS_TOKEN_LS = 'access-token'

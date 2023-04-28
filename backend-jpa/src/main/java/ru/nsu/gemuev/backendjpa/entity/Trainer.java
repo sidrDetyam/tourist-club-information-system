@@ -10,7 +10,11 @@ import java.util.Set;
 @Table(name = "trainers")
 @Getter
 @Setter
-public class Trainer extends Toutist{
+public class Trainer extends Tourist {
+
+    @ManyToOne
+    @JoinColumn(name = "trainer_category_id")
+    private TrainerCategory trainerCategory;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "section_id")

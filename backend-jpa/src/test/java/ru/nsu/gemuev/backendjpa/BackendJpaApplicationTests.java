@@ -6,6 +6,9 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
+import ru.nsu.gemuev.backendjpa.entity.TouristCategory;
+import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
 import ru.nsu.gemuev.backendjpa.testjpa.A;
 import ru.nsu.gemuev.backendjpa.testjpa.ARep;
@@ -18,16 +21,21 @@ class BackendJpaApplicationTests {
     @Autowired
     private SectionsService sectionsService;
 
+    @Autowired
+    private TouristRepository touristRepository;
+
     @Test
     void delete() {
-        var sections = sectionsService.getAllSectionsInfo();
-        ObjectMapper objectMapper = new ObjectMapper();
-        sections.forEach(s -> {
-            try {
-                System.out.println(objectMapper.writeValueAsString(s));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        });
+
+        var cat = new TouristCategory(1L, null);
+
+        var list = touristRepository
+                .findAll(Specification
+                        .where(TouristRepository.equalSpec("firstName", "Егор"))
+                        .and(TouristRepository.equalSpec("lastName", "Чернов"))
+                        .and(TouristRepository.equalSpec("category", cat)))
+                .stream().toList();
+
+        System.out.println(list);
     }
 }

@@ -63,6 +63,7 @@ const SectionGroup = () => {
             api.post("sections/section-group-info", {id: groupId}).then(value => {
                 console.log(value.data)
                 setTableData(value.data.schedule)
+                setInfo(value.data)
             }, error => console.log("failed to load sections info", error))
                 .catch(error => console.log(error))
         }
@@ -114,7 +115,7 @@ const SectionGroup = () => {
         <Container>
             <Row className={"mt-2"}>
                 <Col md={6}>
-                    <h2>Группа 20209, Конная секция</h2>
+                    <h2>Группа {info.name}</h2>
                 </Col>
             </Row>
 

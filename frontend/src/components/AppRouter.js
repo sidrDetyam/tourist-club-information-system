@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {
-    ADMIN_ROUTE,
+    ADMIN_ROUTE, EDIT_USERS_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE,
     SECTION_GROUP_ROUTE,
@@ -15,6 +15,7 @@ import Home from "../pages/Home";
 import Sections from "../pages/Sections";
 import SectionGroupsList from "../pages/SectionGroupsList";
 import SectionGroup from "../pages/SectionGroup";
+import EditUsers from "../pages/EditUsers";
 
 const authRoutes = [
     {path: ADMIN_ROUTE, Component: <Admin/>},
@@ -46,6 +47,7 @@ const AppRouter = () => {
             <Route path={SECTION_GROUP_ROUTE + "/:id"} element={<SectionGroup/>}>
             </Route>
 
+            <Route path={EDIT_USERS_ROUTE} element={<EditUsers/>}/>
 
             {!isAuth && extractRoutes([{path: LOGIN_ROUTE, Component: <Login/>}])}
 

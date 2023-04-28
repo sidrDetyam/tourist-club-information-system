@@ -2,13 +2,14 @@ import React, {useCallback} from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {NavLink, useNavigate} from "react-router-dom";
-import {HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUP_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
+import {EDIT_USERS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
 import {Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsAuthAction} from "../store/UserReducer";
 import {clearTokens} from "../services/AuthService";
 import NavBarButton from "./NavBarButton";
+import LogoutIcon from "./icons/LogoutIcon";
 
 export const BruhNavBar = () => {
     const dispatch = useDispatch()
@@ -33,17 +34,24 @@ export const BruhNavBar = () => {
                             {/*    Админ панель*/}
                             {/*</Button>*/}
 
-                            <Button onClick={() => navigate(SECTIONS_ROUTE)} className={"ml-2"}>
-                                Секции
-                            </Button>
+                            {/*<Button onClick={() => navigate(SECTIONS_ROUTE)} className={"ml-2"}>*/}
+                            {/*    Секции*/}
+                            {/*</Button>*/}
+
+                            <NavBarButton route={SECTIONS_ROUTE} title={"Секции"} className={"ml-2"}/>
 
                             <NavBarButton route={SECTION_GROUPS_ROUTE} title={"Группы"}/>
 
-                            <NavBarButton route={SECTION_GROUP_ROUTE + "/1"} title={"Кабинет тренера"}/>
+                            <NavBarButton route={HOME_ROUTE} title={"Соревнования"}/>
 
-                            <NavBarButton route={HOME_ROUTE} title={"Кабинет админа"}/>
+                            <NavBarButton route={HOME_ROUTE} title={"Походы"}/>
+
+                            <NavBarButton route={HOME_ROUTE} title={"Личный кабинет"}/>
+
+                            <NavBarButton route={EDIT_USERS_ROUTE} title={"Пользователи"}/>
 
                             <Button onClick={logOut} className={"ml-2"}>
+                                <LogoutIcon size={20}/>
                                 Выйти
                             </Button>
                         </Nav>
