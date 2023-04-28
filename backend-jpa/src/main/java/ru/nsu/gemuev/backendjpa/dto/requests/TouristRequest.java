@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backendjpa.dto;
+package ru.nsu.gemuev.backendjpa.dto.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

@@ -1,46 +1,114 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row} from "react-bootstrap";
-import NavBarButton from "../components/NavBarButton";
-import {SECTION_GROUP_ROUTE} from "../Consts";
+import {Col, Container, Row} from "react-bootstrap";
 import api from "../http/Api";
-import SearchIcon from "../components/icons/SearchIcon";
-import UploadIcon from "../components/icons/UploadIcon";
-import TrashIcon from "../components/icons/TrashIcon";
 import FieldSearch from "../components/FieldSearch";
+import EntityTable from "../components/EntityTable";
 
 const EditUsers = () => {
 
         const [touristCategories, setTouristCategories] = useState([{id: null, value: "Любая категория"}])
-        const [curTouristCat, setCurTouristCat] = useState(0)
-        const [firstName, setFirstName] = useState(null)
-        const [lastName, setLastName] = useState(null)
+        const [touristInputs, setTouristInputs] = useState({
+            firstName: null,
+            lastName: null,
+            cat: 0
+        })
+
+        const [trainerCategories, setTrainerCategories] = useState([{id: null, value: "Любая категория"}])
+        const [trainerInputs, setTrainerInputs] = useState({
+            firstName: null,
+            lastName: null,
+            cat: 0
+        })
+
+        const [tourists, setTourists] = useState([])
+        const [trainers, setTrainers] = useState([])
+
+        const onTouristInputChange = (field) => {
+            return (val) => setTouristInputs(inputs => {
+                inputs[field] = val
+                return inputs
+            })
+        }
+
+        const onTrainerInputChange = (field) => {
+            return (val) => setTrainerInputs(inputs => {
+                inputs[field] = val
+                return inputs
+            })
+        }
 
         const touristFilters = [
             {
                 label: "Имя", type: "input", variant: "text",
-                onChange: setFirstName
+                onChange: onTouristInputChange("firstName")
             },
             {
                 label: "Фамилия", type: "input", variant: "text",
-                onChange: setLastName
+                onChange: onTouristInputChange("lastName")
             },
             {
                 label: "Категория туриста", type: "select",
                 options: touristCategories.map(({value}) => value),
-                onIndexChanged: (ind) => setCurTouristCat
+                onIndexChanged: onTouristInputChange("cat")
             },
         ]
+
+        const trainerFilters = [
+            {
+                label: "Имя", type: "input", variant: "text",
+                onChange: onTrainerInputChange("firstName")
+            },
+            {
+                label: "Фамилия", type: "input", variant: "text",
+                onChange: onTrainerInputChange("lastName")
+            },
+            {
+                label: "Категория тренера", type: "select",
+                options: trainerCategories.map(({value}) => value),
+                onIndexChanged: onTrainerInputChange("cat")
+            },
+        ]
+
+        const getTourists = () => {
+            const request = {
+                firstName: touristInputs.firstName,
+                lastName: touristInputs.lastName,
+                touristCategory: touristCategories[touristInputs.cat].id
+            }
+            api.post("tourists/get", request).then(response => {
+                console.log(response.data)
+                setTourists(response.data)
+            })
+        }
+
+        const getTrainers = () => {
+            const request = {
+                firstName: trainerInputs.firstName,
+                lastName: trainerInputs.lastName,
+                trainerCategory: trainerCategories[trainerInputs.cat].id
+            }
+            api.post("trainers/get", request).then(response => {
+                console.log(response.data)
+                setTrainers(response.data)
+            })
+        }
+
 
         useEffect(() => {
                 api.get("tourists/category-info").then(value => {
                     const cat = [{id: null, value: "Любая"}]
                     value.data.forEach(i => cat.push(i))
                     setTouristCategories(cat)
+                }).catch(error => console.log(error))
 
-                }, error => console.log("failed to load", error))
-                    .catch(error => console.log(error))
+                api.get("trainers/category-info").then(value => {
+                    const cat = [{id: null, value: "Любая"}]
+                    value.data.forEach(i => cat.push(i))
+                    setTrainerCategories(cat)
+                }).catch(error => console.log(error))
             }
-            , [setTouristCategories])
+            , [setTouristCategories, setTrainerCategories])
+
 
         return (
             <Container>
@@ -51,70 +119,13 @@ const EditUsers = () => {
                 </Row>
 
                 <Row className={"mt-1"}>
-                    <FieldSearch filters={touristFilters} onSearchClick={() => console.log("serade")}>
-
-                    </FieldSearch>
+                    <FieldSearch filters={touristFilters} onSearchClick={getTourists}/>
                 </Row>
 
                 <Row>
-                    {/*<table className={"table"}>*/}
-                    {/*    <thead>*/}
-                    {/*    <tr>*/}
-                    {/*        <th>День</th>*/}
-                    {/*        <th>Время</th>*/}
-                    {/*        <th>Тип занятия</th>*/}
-                    {/*        <th>Место</th>*/}
-                    {/*        <th>*/}
-                    {/*            <Button variant={"outline-success"} onClick={onUploadScheduleClick}>*/}
-                    {/*                <UploadIcon size={16}/>*/}
-                    {/*            </Button>*/}
-                    {/*            <Button variant={"danger"} onClick={() => setTableEdit(false)}>*/}
-                    {/*                <TrashIcon size={16}/>*/}
-                    {/*            </Button>*/}
-                    {/*        </th>*/}
-                    {/*    </tr>*/}
-                    {/*    </thead>*/}
-                    {/*    <tbody>*/}
-                    {/*    {tableData.map(({_, day, time, type, place}, index) => (*/}
-                    {/*        <tr key={index}>*/}
-                    {/*            <td>*/}
-                    {/*                <select name={"days"} onChange={onDayChange(index)} value={day}>*/}
-                    {/*                    {days.map((value, index) => (*/}
-                    {/*                        <option key={value} value={index}>{value}</option>*/}
-                    {/*                    ))}*/}
-                    {/*                </select>*/}
-
-                    {/*            </td>*/}
-                    {/*            <td>*/}
-                    {/*                <input*/}
-                    {/*                    name="time" value={time} type="text"*/}
-                    {/*                    onChange={(e) => onChangeInput(e, index)}*/}
-                    {/*                    placeholder="Время"*/}
-                    {/*                />*/}
-                    {/*            </td>*/}
-                    {/*            <td>*/}
-                    {/*                <input*/}
-                    {/*                    name="type" type="text" value={type}*/}
-                    {/*                    onChange={(e) => onChangeInput(e, index)}*/}
-                    {/*                    placeholder="Тип"*/}
-                    {/*                />*/}
-                    {/*            </td>*/}
-                    {/*            <td>*/}
-                    {/*                <input*/}
-                    {/*                    name="place" type="text" value={place}*/}
-                    {/*                    onChange={(e) => onChangeInput(e, index)}*/}
-                    {/*                    placeholder="Место"*/}
-                    {/*                />*/}
-                    {/*            </td>*/}
-                    {/*            <td>*/}
-                    {/*                <Button variant={"danger"} onClick={onDeleteClicked(index)}>*/}
-                    {/*                    <TrashIcon size={16}/>*/}
-                    {/*                </Button>*/}
-                    {/*            </td>*/}
-                    {/*        </tr>*/}
-                    {/*    ))}*/}
-                    {/*    </tbody>*/}
-                    {/*</table>*/}
+                    <EntityTable data={tourists}
+                                 fields={["firstName", "secondName", "username", "email", "touristCategory"]}
+                                 head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
                 </Row>
 
                 <Row className={"mt-5"}>
@@ -123,31 +134,17 @@ const EditUsers = () => {
                     </Col>
                 </Row>
 
+                <Row className={"mt-1"}>
+                    <FieldSearch filters={trainerFilters} onSearchClick={getTrainers}/>
+                </Row>
+
                 <Row>
-                    <div>
-                        Убей меня
-                    </div>
+                    <EntityTable data={trainers}
+                                 fields={["firstName", "secondName", "username", "email", "trainerCategory"]}
+                                 head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
                 </Row>
 
 
-                {/*{sections.map((section, index) => (*/}
-                {/*    <div key={index}>*/}
-                {/*        <Row className={"mt-5"}>*/}
-                {/*            <Col>*/}
-                {/*                <h2>{section.name}</h2>*/}
-                {/*            </Col>*/}
-                {/*        </Row>*/}
-                {/*        <Row>*/}
-                {/*            <div>*/}
-                {/*                {section.groups.map((group, indexG) => (*/}
-                {/*                    // <Button key={indexG} variant={"outline-primary"} onClick={() => }>{group}</Button>*/}
-                {/*                    <NavBarButton key={group.id} route={`${SECTION_GROUP_ROUTE}/${group.id}`} title={group.name}/>*/}
-                {/*                ))}*/}
-                {/*            </div>*/}
-
-                {/*        </Row>*/}
-                {/*    </div>*/}
-                {/*))}*/}
             </Container>
         );
     }

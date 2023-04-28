@@ -1,6 +1,10 @@
 package ru.nsu.gemuev.backendjpa.dto;
 
-import ru.nsu.gemuev.backendjpa.security.entities.User;
+import lombok.Getter;
+import lombok.Setter;
 
-public class TrainerDto extends UserDto {
+@Getter
+@Setter
+public class TrainerDto extends TouristDto {
+    private String trainerCategory;
 }
