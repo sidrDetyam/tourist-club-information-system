@@ -29,18 +29,18 @@ public class SectionController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<SectionsListDto> allToUser(){
-        final String username = authService.getAuthInfo().getPrincipal();
-        try{
-            return new ResponseEntity<>(
-                    new SectionsListDto(sectionsService.getTouristSectionsNames(username)),
-                    HttpStatus.OK);
-        }
-        catch (NoSuchElementException ignore){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-    }
+//    @GetMapping("/user")
+//    public ResponseEntity<SectionsListDto> allToUser(){
+//        final String username = authService.getAuthInfo().getPrincipal();
+//        try{
+//            return new ResponseEntity<>(
+//                    new SectionsListDto(sectionsService.getTouristSectionsNames(username)),
+//                    HttpStatus.OK);
+//        }
+//        catch (NoSuchElementException ignore){
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//    }
 
     @GetMapping("/all-info")
     public ResponseEntity<List<SectionDto>> allInfo(){

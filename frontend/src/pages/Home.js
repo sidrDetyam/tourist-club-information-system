@@ -1,28 +1,14 @@
 import React from 'react';
-import api from "../http/Api";
-import {useDispatch} from "react-redux";
-import {setIsAuthAction} from "../store/UserReducer";
+import {Container, Row} from "react-bootstrap";
 
 const Home = () => {
-
-    const hello = async () => {
-        console.log(await api.get("/hello"))
-    }
-
-    const helloAdmin = async () => {
-        console.log(await api.get("/hello/admin"))
-    }
-
-    const dispatch = useDispatch()
-
     return (
         <>
-            <div>
-                Home
-            </div>
-            <button onClick={hello}> press </button>
-            <button onClick={() => dispatch(setIsAuthAction(false))}> To false </button>
-            <button onClick={helloAdmin}> admin </button>
+            <Container>
+                <Row className={"mt-5"}>
+                    <h1>Туристическая система информационного клуба</h1>
+                </Row>
+            </Container>
         </>
     );
 }

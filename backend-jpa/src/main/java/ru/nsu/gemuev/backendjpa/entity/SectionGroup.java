@@ -24,6 +24,13 @@ public class SectionGroup {
     @JoinColumn(name = "section_id")
     private Section section;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
+
+    @ManyToMany(mappedBy = "sectionGroups")
+    private Set<Tourist> tourists;
+
     @OneToMany(mappedBy = "sectionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScheduleItem> scheduleItems;
 }

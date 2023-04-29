@@ -141,7 +141,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
             <Row className={"mt-5"}>
                 <h2>О секции:</h2>
             </Row>
-            
+
             <Row className={"mt-2"}>
                 <Col md={12}>
                     <section>

@@ -20,7 +20,7 @@ public class Trainer extends Tourist {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "trainers_section_groups",
             joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "section_group_id"))

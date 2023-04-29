@@ -36,18 +36,18 @@ public class SectionsService {
                 .toList();
     }
 
-    @Transactional
-    public @NonNull List<String> getTouristSectionsNames(@NonNull final String username)
-            throws NoSuchElementException {
-        final Tourist tourist = touristRepository.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("This tourist doesn`t exist"));
-
-        //bruh N+1
-        return tourist.getSectionGroups().stream()
-                .map(SectionGroup::getSection)
-                .map(Section::getName)
-                .toList();
-    }
+//    @Transactional
+//    public @NonNull List<String> getTouristSectionsNames(@NonNull final String username)
+//            throws NoSuchElementException {
+//        final Tourist tourist = touristRepository.findByUsername(username)
+//                .orElseThrow(() -> new NoSuchElementException("This tourist doesn`t exist"));
+//
+//        //bruh N+1
+//        return tourist.getSectionGroups().stream()
+//                .map(SectionGroup::getSection)
+//                .map(Section::getName)
+//                .toList();
+//    }
 
     @Transactional
     public @NonNull List<SectionDto> getAllSectionsInfo() {

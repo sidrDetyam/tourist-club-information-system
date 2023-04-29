@@ -6,7 +6,9 @@ import EditIcon from "../components/icons/EditIcon";
 import UploadIcon from "../components/icons/UploadIcon";
 import UserCard from "../components/UserCard";
 import api from "../http/Api";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import XIcon from "../components/icons/XIcon";
+import {SECTION_GROUPS_ROUTE} from "../Consts";
 
 const origindata = [
     {
@@ -50,7 +52,6 @@ const SectionGroup = () => {
     const [info, setInfo] = useState({})
 
     const [tableData, setTableDataRaw] = useState([])
-
     const [isTableEdit, setTableEdit] = useState(false)
 
     const setTableData = useCallback((data) => {
@@ -64,7 +65,7 @@ const SectionGroup = () => {
                 console.log(value.data)
                 setTableData(value.data.schedule)
                 setInfo(value.data)
-            }, error => console.log("failed to load sections info", error))
+            })
                 .catch(error => console.log(error))
         }
         , [groupId, setInfo, setTableData, state])
@@ -78,7 +79,7 @@ const SectionGroup = () => {
             .then(value => {
                 console.log(value)
                 setTableEdit(false)
-                setState(s => s+1)
+                setState(s => s + 1)
             })
     }
 
@@ -110,17 +111,56 @@ const SectionGroup = () => {
         setTableData([...tableData, newItem])
     }
 
+    const [isEdit, setEdit] = useState(false)
+    const [inputs, setInputs] = useState({name: "", trainer: null, tourists: []})
+    const nav = useNavigate()
+
+    const onDeleteClick = () => {
+        api.post("section-groups/delete", {id: groupId})
+            .then(() => nav(SECTION_GROUPS_ROUTE))
+            .catch(e => console.log(e))
+    }
+
     return (
 
         <Container>
-            <Row className={"mt-2"}>
-                <Col md={6}>
-                    <h2>Группа {info.name}</h2>
+            <Row className={"mt-5"}>
+                <Col md={3}>
+                    {isEdit ?
+                        <input type={"text"} className={"form-control"}
+                               onChange={(e) => setInputs({...inputs, name: e.target.value})}></input>
+                        :
+                        <h2>Группа {info.name}</h2>
+                    }
+                </Col>
+                <Col>
+                    <div>
+                        {!isEdit &&
+                            <Button onClick={() => setEdit(true)}>
+                                <EditIcon size={20}></EditIcon>
+                            </Button>
+                        }
+
+                        {isEdit &&
+                            <>
+                                <Button variant={"primary"}>
+                                    <UploadIcon size={20}/>
+                                </Button>
+                                <Button variant={"outline-primary"} onClick={() => setEdit(false)}>
+                                    <XIcon size={20}/>
+                                </Button>
+                                <Button variant={"danger"} onClick={onDeleteClick}>
+                                    <TrashIcon size={20}/>
+                                </Button>
+                            </>
+                        }
+
+                    </div>
                 </Col>
             </Row>
 
             <Row className={"mt-5"}>
-                <Col md={6} className="text">
+                <Col className="text-center">
                     <h3>Расписание</h3>
                 </Col>
             </Row>
@@ -133,10 +173,10 @@ const SectionGroup = () => {
                             <table className={"table"}>
                                 <thead>
                                 <tr>
-                                    <th>День</th>
-                                    <th>Время</th>
-                                    <th>Тип занятия</th>
-                                    <th>Место</th>
+                                    <th className={"text-center"}>День</th>
+                                    <th className={"text-center"}>Время</th>
+                                    <th className={"text-center"}>Тип занятия</th>
+                                    <th className={"text-center"}>Место</th>
                                     <th>
                                         <Button onClick={() => setTableEdit(true)}>
                                             <EditIcon size={16}/>
@@ -147,10 +187,10 @@ const SectionGroup = () => {
                                 <tbody>
                                 {tableData.map(({_, day, time, type, place}, index) => (
                                     <tr key={index}>
-                                        <td>{days[day]}</td>
-                                        <td>{time}</td>
-                                        <td>{type}</td>
-                                        <td>{place}</td>
+                                        <td style={{backgroundColor: (index+1) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{days[day]}</td>
+                                        <td style={{backgroundColor: (index+2) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{time}</td>
+                                        <td style={{backgroundColor: (index+3) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{type}</td>
+                                        <td style={{backgroundColor: (index+4) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{place}</td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -163,16 +203,16 @@ const SectionGroup = () => {
                             <table className={"table"}>
                                 <thead>
                                 <tr>
-                                    <th>День</th>
-                                    <th>Время</th>
-                                    <th>Тип занятия</th>
-                                    <th>Место</th>
+                                    <th className={"text-center"}>День</th>
+                                    <th className={"text-center"}>Время</th>
+                                    <th className={"text-center"}>Тип занятия</th>
+                                    <th className={"text-center"}>Место</th>
                                     <th>
-                                        <Button variant={"outline-success"} onClick={onUploadScheduleClick}>
+                                        <Button variant={"primary"} onClick={onUploadScheduleClick}>
                                             <UploadIcon size={16}/>
                                         </Button>
-                                        <Button variant={"danger"} onClick={() => setTableEdit(false)}>
-                                            <TrashIcon size={16}/>
+                                        <Button variant={"outline-primary"} onClick={() => setTableEdit(false)}>
+                                            <XIcon size={16}/>
                                         </Button>
                                     </th>
                                 </tr>
@@ -181,7 +221,7 @@ const SectionGroup = () => {
                                 {tableData.map(({_, day, time, type, place}, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <select name={"days"} onChange={onDayChange(index)} value={day}>
+                                            <select name={"days"} onChange={onDayChange(index)} value={day} className={"form-select"}>
                                                 {days.map((value, index) => (
                                                     <option key={value} value={index}>{value}</option>
                                                 ))}
@@ -190,21 +230,21 @@ const SectionGroup = () => {
                                         </td>
                                         <td>
                                             <input
-                                                name="time" value={time} type="text"
+                                                name="time" value={time} type="time" className={"form-control"}
                                                 onChange={(e) => onChangeInput(e, index)}
                                                 placeholder="Время"
                                             />
                                         </td>
                                         <td>
                                             <input
-                                                name="type" type="text" value={type}
+                                                name="type" type="text" value={type} className={"form-control"}
                                                 onChange={(e) => onChangeInput(e, index)}
                                                 placeholder="Тип"
                                             />
                                         </td>
                                         <td>
                                             <input
-                                                name="place" type="text" value={place}
+                                                name="place" type="text" value={place} className={"form-control"}
                                                 onChange={(e) => onChangeInput(e, index)}
                                                 placeholder="Место"
                                             />

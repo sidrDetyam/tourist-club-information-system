@@ -17,12 +17,14 @@ const EntityTable = ({head, fields, data, rowComponentFactory}) => {
                     <tr key={indexi}>
                         {fields.map((field, indexj) => (
                             <td key={indexj}
-                                style={{backgroundColor: (indexi+indexj)%2===0? "#f2f2f2" : "rgb(255, 255, 255)"}}>{i[field]}</td>
+                                style={{backgroundColor: (indexi + indexj) % 2 === 0 ? "#f2f2f2" : "rgb(255, 255, 255)"}}>{i[field]}</td>
                         ))}
 
-                        <td>
-                            {rowComponentFactory(indexi)}
-                        </td>
+                        {rowComponentFactory !== undefined && (
+                            <td>
+                                {rowComponentFactory(indexi)}
+                            </td>)
+                        }
                     </tr>
                 ))}
                 </tbody>
