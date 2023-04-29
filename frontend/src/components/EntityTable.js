@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EntityTable = ({head, fields, data}) => {
+const EntityTable = ({head, fields, data, rowComponentFactory}) => {
 
     return (
         <div>
@@ -8,7 +8,7 @@ const EntityTable = ({head, fields, data}) => {
                 <thead>
                 <tr>
                     {head.map((i, index) => (
-                        <th key={index}>{i}</th>
+                        <th key={index} style={{backgroundColor: "rgb(200,200,200)"}} className={"text-center"}>{i}</th>
                     ))}
                 </tr>
                 </thead>
@@ -16,8 +16,13 @@ const EntityTable = ({head, fields, data}) => {
                 {data.map((i, indexi) => (
                     <tr key={indexi}>
                         {fields.map((field, indexj) => (
-                            <td key={indexj}>{i[field]}</td>
+                            <td key={indexj}
+                                style={{backgroundColor: (indexi+indexj)%2===0? "#f2f2f2" : "rgb(255, 255, 255)"}}>{i[field]}</td>
                         ))}
+
+                        <td>
+                            {rowComponentFactory(indexi)}
+                        </td>
                     </tr>
                 ))}
                 </tbody>

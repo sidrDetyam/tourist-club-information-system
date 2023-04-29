@@ -1,11 +1,14 @@
 import React, {useCallback, useState} from 'react';
 import {Button, Col, Container, Row} from "react-bootstrap";
-import EditIcon from "./icons/EditIcon";
-import TrashIcon from "./icons/TrashIcon";
-import UserCard from "./UserCard";
+import EditIcon from "../components/icons/EditIcon";
+import TrashIcon from "../components/icons/TrashIcon";
+import UserCard from "../components/UserCard";
 import useInput from "../hooks/UseInput";
 import api from "../http/Api";
-import UploadIcon from "./icons/UploadIcon";
+import UploadIcon from "../components/icons/UploadIcon";
+import EntityTable from "../components/EntityTable";
+import CheckIcon from "../components/icons/CheckIcon";
+import XIcon from "../components/icons/XIcon";
 
 const SectionTab = ({info, updateCb, trainers}) => {
 
@@ -18,7 +21,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
         const bruh = []
 
         trainers.forEach((t, i) => {
-            if(info.trainers.map(tt => tt.id).indexOf(t.id) !== -1){
+            if (info.trainers.map(tt => tt.id).indexOf(t.id) !== -1) {
                 bruh.push(i)
             }
         })
@@ -35,43 +38,32 @@ const SectionTab = ({info, updateCb, trainers}) => {
         }
         api.post("/sections/edit", changes)
             .then(value => {
-                console.log(value)
                 setEdit(false)
                 updateCb()
             })
     }
 
     const [checked, setChecked] = useState([]);
-    const checkList = trainers.map(t => "  " + t.firstName + " " + t.secondName);
-
     const handleCheck = (id) => {
-        return (event) => {
+        return () => {
             var updatedList = [...checked];
-            if (event.target.checked) {
-                updatedList = [...checked, id];
-            } else {
+            if(isChecked(id)){
                 updatedList.splice(checked.indexOf(id), 1);
+            }
+            else{
+                updatedList = [...checked, id];
             }
             setChecked(updatedList);
         }
     };
-
-    // const checkedItems = checked.length
-    //     ? checked.reduce((total, item) => {
-    //         return total + ", " + item;
-    //     })
-    //     : "";
-
-    // Return classes based on whether item is checked
-    var isChecked = (id) =>
-        checked.includes(id) ? "checked-item" : "not-checked-item";
+    var isChecked = (id) => checked.includes(id)
 
     return (
         <Container>
             <Row className={"mt-2"}>
                 <Col md={4}>
                     {!isEdit && <h2>{info.name}</h2>}
-                    {isEdit && <input {...sectionName}/>}
+                    {isEdit && <input className={"form-control"} {...sectionName}/>}
                 </Col>
                 <Col>
                     {info.canEdit && (!isEdit ?
@@ -80,10 +72,13 @@ const SectionTab = ({info, updateCb, trainers}) => {
                             </Button>
                             :
                             <>
-                                <Button variant={"success"} onClick={onAcceptClick}>
+                                <Button variant={"primary"} onClick={onAcceptClick}>
                                     <UploadIcon size={20}/>
                                 </Button>
-                                <Button variant={"danger"} onClick={onEditClick}>
+                                <Button variant={"outline-primary"} onClick={onEditClick}>
+                                    <XIcon size={20}/>
+                                </Button>
+                                <Button variant={"danger"}>
                                     <TrashIcon size={20}/>
                                 </Button>
                             </>
@@ -114,38 +109,44 @@ const SectionTab = ({info, updateCb, trainers}) => {
 
 
             {!isEdit && <Row>
-                {info.trainers.length!==0? info.trainers.map(trainer => (
-                    <UserCard key={trainer.username}
-                              name={trainer.firstName} surname={trainer.secondName}
-                              email={trainer.email}/>
-                ))
-                :
-                <h5>Нет прикрепленных к секции тренеров</h5>
+                {info.trainers.length !== 0 ? info.trainers.map(trainer => (
+                        <UserCard key={trainer.username}
+                                  name={trainer.firstName} surname={trainer.secondName}
+                                  email={trainer.email}/>
+                    ))
+                    :
+                    <h5>Нет прикрепленных к секции тренеров</h5>
                 }
             </Row>}
 
-            {isEdit && <Row>
-                <div className="checkList container" style={{overflowY: "scroll", maxHeight: "200px"}}>
-                    <div className="list-container">
-                        {checkList.map((item, index) => (
-                            <div key={index}>
-                                <input value={item} type="checkbox" onChange={handleCheck(index)} checked={checked.includes(index)}/>
-                                <span className={isChecked(index)}>{item}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            {isEdit && <>
 
-                {/*<div>*/}
-                {/*    {`Items checked are: ${checkedItems}`}*/}
-                {/*</div>*/}
-            </Row>}
+                {/*style={{overflowY: "scroll", maxHeight: "400px"}}*/}
+                <Row>
+                    <EntityTable data={trainers}
+                                 fields={["firstName", "secondName", "email", "trainerCategory"]}
+                                 head={["Имя", "Фамилия", "email", "Квалификация"]}
+
+                                 rowComponentFactory={(index) => {
+                                     const flag = isChecked(index)
+                                    return (<Button variant={flag? "primary" : "outline-secondary"}
+                                            onClick={handleCheck(index)}>
+                                         <CheckIcon size={20}></CheckIcon>
+                                    </Button>)}}
+                    />
+                </Row>
+            </>
+            }
 
             <Row className={"mt-5"}>
+                <h2>О секции:</h2>
+            </Row>
+            
+            <Row className={"mt-2"}>
                 <Col md={12}>
                     <section>
-                        {!isEdit && <pre><p style={{fontSize: "large"}}>{info.description}</p></pre>}
-                        {isEdit && <textarea cols={100} rows={20} {...description}/>}
+                        {!isEdit && <p style={{fontSize: "large"}}>{info.description}</p>}
+                        {isEdit && <textarea className={"form-control"} cols={100} rows={20} {...description}/>}
                     </section>
                 </Col>
             </Row>

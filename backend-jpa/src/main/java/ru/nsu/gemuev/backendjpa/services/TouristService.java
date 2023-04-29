@@ -7,11 +7,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
+import ru.nsu.gemuev.backendjpa.dto.TrainerDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.TouristRequest;
 import ru.nsu.gemuev.backendjpa.dto.UserDto;
 import ru.nsu.gemuev.backendjpa.entity.Tourist;
 import ru.nsu.gemuev.backendjpa.entity.TouristCategory;
 import ru.nsu.gemuev.backendjpa.mappers.TouristMapper;
+import ru.nsu.gemuev.backendjpa.mappers.TrainerMapper;
 import ru.nsu.gemuev.backendjpa.mappers.UserMapper;
 import ru.nsu.gemuev.backendjpa.repositories.TouristCategoryRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
@@ -29,6 +31,7 @@ public class TouristService {
     private final TouristCategoryRepository touristCategoryRepository;
     private final TouristRepository touristRepository;
     private final TouristMapper touristMapper;
+    private final TrainerMapper trainerMapper;
 
     @Transactional
     public List<UserDto> getAllTrainers(){
@@ -39,9 +42,9 @@ public class TouristService {
     }
 
     @Transactional
-    public List<UserDto> getSectionTrainers(long sectionId){
+    public List<TrainerDto> getSectionTrainers(long sectionId){
         return trainersRepository.findAllBySectionId(sectionId).stream()
-                .map(userMapper::toDto)
+                .map(trainerMapper::toDto)
                 .toList();
     }
 

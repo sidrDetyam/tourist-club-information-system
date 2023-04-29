@@ -50,7 +50,7 @@ export const BruhNavBar = () => {
 
                             <NavBarButton route={EDIT_USERS_ROUTE} title={"Пользователи"}/>
 
-                            <Button onClick={logOut} className={"ml-2"}>
+                            <Button variant={"outline-danger"} onClick={logOut} className={"ml-2"}>
                                 <LogoutIcon size={20}/>
                                 Выйти
                             </Button>

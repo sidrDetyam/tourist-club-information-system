@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Container, Tab, Tabs} from "react-bootstrap";
 import api from "../http/Api";
-import SectionTab from "../components/SectionTab";
+import SectionTab from "./SectionTab";
 
 function Sections() {
     const [activeTab, setActiveTab] = useState('tab1');
@@ -36,13 +36,12 @@ function Sections() {
                     if (data.length > 0) {
                         setActiveTab(data.sectionId);
                     }
-                    console.log(data);
-                }, error => console.log("failed to load sections info", error));
+                });
 
             })
             .catch(error => console.log(error))
 
-        api.get("sections/all-trainers").then(t => setTrainers(t.data))
+        api.post("trainers/get", {}).then(t => setTrainers(t.data))
     }, [state])
 
     return (

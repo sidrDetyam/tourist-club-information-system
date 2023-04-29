@@ -118,14 +118,18 @@ const EditUsers = () => {
                     </Col>
                 </Row>
 
-                <Row className={"mt-1"}>
+                <Row className={"mt-2"}>
                     <FieldSearch filters={touristFilters} onSearchClick={getTourists}/>
                 </Row>
 
                 <Row>
-                    <EntityTable data={tourists}
-                                 fields={["firstName", "secondName", "username", "email", "touristCategory"]}
-                                 head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
+                    {tourists.length === 0 ?
+                        <h2 className={"text-center"}>Туристы не найдены</h2>
+                        :
+                        <EntityTable data={tourists}
+                                     fields={["firstName", "secondName", "username", "email", "touristCategory"]}
+                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
+                    }
                 </Row>
 
                 <Row className={"mt-5"}>
@@ -134,14 +138,18 @@ const EditUsers = () => {
                     </Col>
                 </Row>
 
-                <Row className={"mt-1"}>
+                <Row className={"mt-2"}>
                     <FieldSearch filters={trainerFilters} onSearchClick={getTrainers}/>
                 </Row>
 
                 <Row>
-                    <EntityTable data={trainers}
-                                 fields={["firstName", "secondName", "username", "email", "trainerCategory"]}
-                                 head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
+                    {trainers.length === 0 ?
+                        <h2 className={"text-center"}>Тренеры не найдены</h2>
+                        :
+                        <EntityTable data={trainers}
+                                     fields={["firstName", "secondName", "username", "email", "touristCategory", "trainerCategory"]}
+                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория", "Квалификация"]}/>
+                    }
                 </Row>
 
 

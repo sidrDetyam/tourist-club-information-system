@@ -12,6 +12,6 @@ public class SectionDto {
     private String name;
     private String description;
     private UserDto manager;
-    private List<UserDto> trainers;
+    private List<TrainerDto> trainers;
     private List<SectionGroupDto> groups;
 }
