@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreateSectionGroupRequest;
+import ru.nsu.gemuev.backendjpa.dto.requests.SectionGroupEditRequest;
 import ru.nsu.gemuev.backendjpa.services.SectionGroupService;
 
 @RestController
@@ -27,6 +28,12 @@ public class SectionGroupController {
     @PostMapping("/delete")
     public ResponseEntity<Void> deleteGroup(@RequestBody @NonNull IdDto id){
         sectionGroupService.deleteGroup(id.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Void> editGroup(@RequestBody @NonNull SectionGroupEditRequest request){
+        sectionGroupService.editGroup(request);
         return ResponseEntity.ok().build();
     }
 }

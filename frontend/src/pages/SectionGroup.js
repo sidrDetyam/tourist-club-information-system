@@ -9,30 +9,8 @@ import api from "../http/Api";
 import {useNavigate, useParams} from "react-router-dom";
 import XIcon from "../components/icons/XIcon";
 import {SECTION_GROUPS_ROUTE} from "../Consts";
-
-const origindata = [
-    {
-        id: 0,
-        day: 0,
-        time: 'johndoe@email.com',
-        type: 'раз',
-        place: 'Frontend Developer',
-    },
-    {
-        id: 1,
-        day: 1,
-        time: 'johndoe@email.com',
-        type: 'два',
-        place: 'Frontend Developer',
-    },
-    {
-        id: 2,
-        day: 2,
-        time: 'johndoe@email.com',
-        type: 'три',
-        place: 'Frontend Developer',
-    },
-]
+import EntityTable from "../components/EntityTable";
+import CheckIcon from "../components/icons/CheckIcon";
 
 const days = [
     "Понедельник",
@@ -49,7 +27,7 @@ const SectionGroup = () => {
 
     const params = useParams();
     const groupId = params.id
-    const [info, setInfo] = useState({})
+    const [info, setInfo] = useState({tourists: [], trainer: null})
 
     const [tableData, setTableDataRaw] = useState([])
     const [isTableEdit, setTableEdit] = useState(false)
@@ -59,7 +37,17 @@ const SectionGroup = () => {
         setTableDataRaw(data)
     }, [setTableDataRaw])
 
+
     const [state, setState] = useState(0)
+
+    const [trainers, setTrainers] = useState([])
+    const [tourists, setTourists] = useState([])
+
+    useEffect(() => {
+        api.post("trainers/get", {}).then(t => setTrainers(t.data))
+        api.post("tourists/get", {}).then(t => setTourists(t.data))
+    }, [setTrainers])
+
     useEffect(() => {
             api.post("sections/section-group-info", {id: groupId}).then(value => {
                 console.log(value.data)
@@ -121,6 +109,42 @@ const SectionGroup = () => {
             .catch(e => console.log(e))
     }
 
+    const isTrainerChecked = (ind) => {
+        return inputs.trainer === ind;
+    }
+
+    const handleTrainerCheck = (ind) => () => {
+        if (isTrainerChecked(ind)) {
+            setInputs({...inputs, trainer: null})
+        } else {
+            setInputs({...inputs, trainer: ind})
+        }
+    }
+    const handleTouristCheck = (ind) => {
+        return () => {
+            var updatedList = [...inputs.tourists];
+            if(isTouristChecked(ind)){
+                updatedList.splice(inputs.tourists.indexOf(ind), 1);
+            }
+            else{
+                updatedList = [...inputs.tourists, ind];
+            }
+            setInputs({...inputs, tourists: updatedList});
+        }
+    };
+    var isTouristChecked = (ind) => inputs.tourists.includes(ind)
+
+    const onSubmitInfoClick = () => {
+        const newInfo = {
+            groupId: groupId,
+            trainerId: inputs.trainer===null? null : trainers[inputs.trainer].id,
+            touristIds: inputs.tourists.map(index => tourists[index].id),
+            name: inputs.name
+        }
+        // console.log(newInfo)
+        api.post("section-groups/edit", newInfo).then(() => setState(s => s+1))
+    }
+
     return (
 
         <Container>
@@ -143,7 +167,7 @@ const SectionGroup = () => {
 
                         {isEdit &&
                             <>
-                                <Button variant={"primary"}>
+                                <Button variant={"primary"} onClick={onSubmitInfoClick}>
                                     <UploadIcon size={20}/>
                                 </Button>
                                 <Button variant={"outline-primary"} onClick={() => setEdit(false)}>
@@ -187,10 +211,10 @@ const SectionGroup = () => {
                                 <tbody>
                                 {tableData.map(({_, day, time, type, place}, index) => (
                                     <tr key={index}>
-                                        <td style={{backgroundColor: (index+1) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{days[day]}</td>
-                                        <td style={{backgroundColor: (index+2) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{time}</td>
-                                        <td style={{backgroundColor: (index+3) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{type}</td>
-                                        <td style={{backgroundColor: (index+4) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{place}</td>
+                                        <td style={{backgroundColor: (index + 1) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{days[day]}</td>
+                                        <td style={{backgroundColor: (index + 2) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{time}</td>
+                                        <td style={{backgroundColor: (index + 3) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{type}</td>
+                                        <td style={{backgroundColor: (index + 4) % 2 === 0 ? "#f2f2f2" : "#ffffff"}}>{place}</td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -221,7 +245,8 @@ const SectionGroup = () => {
                                 {tableData.map(({_, day, time, type, place}, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <select name={"days"} onChange={onDayChange(index)} value={day} className={"form-select"}>
+                                            <select name={"days"} onChange={onDayChange(index)} value={day}
+                                                    className={"form-select"}>
                                                 {days.map((value, index) => (
                                                     <option key={value} value={index}>{value}</option>
                                                 ))}
@@ -279,7 +304,24 @@ const SectionGroup = () => {
             </Row>
 
             <Row>
-                <UserCard name={'Имя'} surname={"Фамилия"}/>
+                {isEdit ?
+                    <EntityTable data={trainers}
+                                 fields={["firstName", "secondName", "email", "trainerCategory"]}
+                                 head={["Имя", "Фамилия", "email", "Квалификация"]}
+
+                                 rowComponentFactory={(index) => {
+                                     const flag = isTrainerChecked(index)
+                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                                     onClick={handleTrainerCheck(index)}>
+                                         <CheckIcon size={20}></CheckIcon>
+                                     </Button>)
+                                 }}
+                    /> : (info.trainer === null ?
+                        <h4>Тренер не выбран</h4>
+                        :
+                        <UserCard name={info.trainer.firstName} surname={info.trainer.secondName}
+                                  email={info.trainer.email} categoty={info.trainer.trainerCategory}></UserCard>)
+                }
             </Row>
 
             <Row className={"mt-5"}>
@@ -289,10 +331,27 @@ const SectionGroup = () => {
             </Row>
 
             <Row>
-                <UserCard name={'Имя'} surname={"Фамилия"}/>
-                <UserCard name={'Имя'} surname={"Фамилия"}/>
-                <UserCard name={'Имя'} surname={"Фамилия"}/>
-                <UserCard name={'Имя'} surname={"Фамилия"}/>
+                {isEdit ?
+                    <EntityTable data={tourists}
+                                 fields={["firstName", "secondName", "email", "touristCategory"]}
+                                 head={["Имя", "Фамилия", "email", "Категория"]}
+
+                                 rowComponentFactory={(index) => {
+                                     const flag = isTouristChecked(index)
+                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                                     onClick={handleTouristCheck(index)}>
+                                         <CheckIcon size={20}></CheckIcon>
+                                     </Button>)
+                                 }}
+                    /> : (info.tourists.length === 0 ?
+                        <h4>Нет туристов</h4>
+                        : (<>
+                            {info.tourists.map((t, index) => (
+                                <UserCard key={t.id} name={t.firstName} surname={t.secondName}
+                                          email={t.email} categoty={t.touristCategory}></UserCard>)
+                            )}
+                        </>))
+                }
             </Row>
 
         </Container>

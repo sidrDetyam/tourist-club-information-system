@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {EDIT_USERS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
 import {Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
@@ -28,7 +28,7 @@ export const BruhNavBar = () => {
             {isAuth &&
                 <Navbar className={"navbar navbar-expand-lg navbar-light bg-light"}>
                     <Container className={"container-fluid"}>
-                        <NavLink to={HOME_ROUTE}>Туристический клуб</NavLink>
+                        <NavBarButton route={HOME_ROUTE} title={"Главная"} variant={"secondary"}></NavBarButton>
                         <Nav className="ml-auto" style={{color: 'white'}}>
                             {/*<Button variant={"outline-light"} onClick={() => navigate(ADMIN_ROUTE)}>*/}
                             {/*    Админ панель*/}
