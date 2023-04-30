@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.nsu.gemuev.backendjpa.entity.TouristCategory;
+import ru.nsu.gemuev.backendjpa.entity.Trainer;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
+import ru.nsu.gemuev.backendjpa.services.TrainerService;
 import ru.nsu.gemuev.backendjpa.testjpa.A;
 import ru.nsu.gemuev.backendjpa.testjpa.ARep;
 import ru.nsu.gemuev.backendjpa.testjpa.B;
@@ -24,18 +27,30 @@ class BackendJpaApplicationTests {
     @Autowired
     private TouristRepository touristRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private TrainerService trainerService;
+
     @Test
     void delete() {
 
-        var cat = new TouristCategory(1L, null);
+//        var cat = new TouristCategory(1L, null);
+//
+//        var list = touristRepository
+//                .findAll(Specification
+//                        .where(TouristRepository.equalSpec("firstName", "Егор"))
+//                        .and(TouristRepository.equalSpec("lastName", "Чернов"))
+//                        .and(TouristRepository.equalSpec("category", cat)))
+//                .stream().toList();
+//
+//        System.out.println(list);
 
-        var list = touristRepository
-                .findAll(Specification
-                        .where(TouristRepository.equalSpec("firstName", "Егор"))
-                        .and(TouristRepository.equalSpec("lastName", "Чернов"))
-                        .and(TouristRepository.equalSpec("category", cat)))
-                .stream().toList();
+//        System.out.println(jdbcTemplate.queryForObject("select COUNT(*) from users u", Integer.class));
 
-        System.out.println(list);
+        trainerService.reduceToTourist(5);
+
+//        touristRepository.findById(1L).orElseThrow();
     }
 }

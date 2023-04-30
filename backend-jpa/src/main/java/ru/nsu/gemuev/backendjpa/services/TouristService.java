@@ -83,4 +83,10 @@ public class TouristService {
 //
 //        return List.of();
     }
+
+    @Transactional
+    public @NonNull TouristDto getById(long id){
+        return touristMapper.toDto(touristRepository
+                .findById(id).orElseThrow());
+    }
 }

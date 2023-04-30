@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.Utils.SpecificationUtils;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
@@ -25,6 +28,7 @@ public class TrainerService {
     private final TrainerCategoryRepository trainerCategoryRepository;
     private final TrainersRepository trainersRepository;
     private final TrainerMapper trainerMapper;
+    private final JdbcTemplate jdbcTemplate;
 
     @Transactional
     public @NonNull List<CategoryDto> getCategoryDto() {
@@ -55,5 +59,22 @@ public class TrainerService {
                 .stream()
                 .map(trainerMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public @NonNull TrainerDto getById(final long id){
+        final var trainer = trainersRepository.findById(id).orElseThrow();
+        return trainerMapper.toDto(trainer);
+    }
+
+    @Transactional
+    public void reduceToTourist(final long id){
+        jdbcTemplate.update("UPDATE section_groups SET trainer_id=NULL WHERE trainer_id = ?", id);
+        jdbcTemplate.update("delete from trainers where id=?", id);
+    }
+
+    @Transactional
+    public void increaseToTrainer(final long id){
+        jdbcTemplate.update("INSERT INTO trainers VALUES (?, null, null)", id);
     }
 }

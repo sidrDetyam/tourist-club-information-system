@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import api from "../http/Api";
 import FieldSearch from "../components/FieldSearch";
 import EntityTable from "../components/EntityTable";
+import {EDIT_USERS_ROUTE} from "../Consts";
+import EditIcon from "../components/icons/EditIcon";
+import {useNavigate} from "react-router-dom";
 
-const EditUsers = () => {
+const EditUsersList = () => {
 
         const [touristCategories, setTouristCategories] = useState([{id: null, value: "Любая категория"}])
         const [touristInputs, setTouristInputs] = useState({
@@ -109,6 +112,7 @@ const EditUsers = () => {
             }
             , [setTouristCategories, setTrainerCategories])
 
+        const nav = useNavigate()
 
         return (
             <Container>
@@ -128,7 +132,18 @@ const EditUsers = () => {
                         :
                         <EntityTable data={tourists}
                                      fields={["firstName", "secondName", "username", "email", "touristCategory"]}
-                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}/>
+                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория"]}
+
+                                     rowComponentFactory={(index) => {
+                                         return (
+                                             <Button
+                                                 variant={"outline-secondary"}
+                                                 onClick={() => nav(`${EDIT_USERS_ROUTE}/${tourists[index].id}`)}>
+                                                 <EditIcon size={20}></EditIcon>
+                                             </Button>
+                                         )
+                                     }}
+                        />
                     }
                 </Row>
 
@@ -158,4 +173,4 @@ const EditUsers = () => {
     }
 ;
 
-export default EditUsers;
+export default EditUsersList;

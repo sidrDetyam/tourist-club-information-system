@@ -9,6 +9,8 @@ import UploadIcon from "../components/icons/UploadIcon";
 import EntityTable from "../components/EntityTable";
 import CheckIcon from "../components/icons/CheckIcon";
 import XIcon from "../components/icons/XIcon";
+import NavBarButton from "../components/NavBarButton";
+import {SECTION_GROUP_ROUTE} from "../Consts";
 
 const SectionTab = ({info, updateCb, trainers}) => {
 
@@ -16,6 +18,8 @@ const SectionTab = ({info, updateCb, trainers}) => {
     const description = useInput(info.description)
     const sectionName = useInput(info.name)
     const [isEdit, setEdit] = useState(false)
+
+    console.log(info)
 
     const onEditClick = useCallback(() => {
         const bruh = []
@@ -153,8 +157,24 @@ const SectionTab = ({info, updateCb, trainers}) => {
             </>
             }
 
+            {!isEdit &&
+                <>
+                    <Row className={"mt-5"}>
+                        <h3>Группы</h3>
+                    </Row>
+                    <Row className={"mt-2"}>
+                        <div>
+                            {info.groups.map((group) => (
+                                <NavBarButton key={group.id} route={`${SECTION_GROUP_ROUTE}/${group.id}`}
+                                              title={group.name}/>
+                            ))}
+                        </div>
+                    </Row>
+                </>
+            }
+
             <Row className={"mt-5"}>
-                <h2>О секции:</h2>
+                <h3>О секции</h3>
             </Row>
 
             <Row className={"mt-2"}>

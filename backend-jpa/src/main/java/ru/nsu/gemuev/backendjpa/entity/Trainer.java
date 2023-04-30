@@ -20,10 +20,7 @@ public class Trainer extends Tourist {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "trainers_section_groups",
-            joinColumns = @JoinColumn(name = "trainer_id"),
-            inverseJoinColumns = @JoinColumn(name = "section_group_id"))
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "trainer")
     private Set<SectionGroup> trainerSectionGroups;
 
 }

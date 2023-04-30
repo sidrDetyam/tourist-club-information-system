@@ -30,6 +30,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '3.0.6'
 
     implementation 'org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:1.7.0'
     compileOnly 'org.jetbrains:annotations:24.0.1'

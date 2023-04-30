@@ -15,7 +15,8 @@ import Home from "../pages/Home";
 import Sections from "../pages/Sections";
 import SectionGroupsList from "../pages/SectionGroupsList";
 import SectionGroup from "../pages/SectionGroup";
-import EditUsers from "../pages/EditUsers";
+import EditUsersList from "../pages/EditUsersList";
+import EditUser from "../pages/EditUser";
 
 const authRoutes = [
     {path: ADMIN_ROUTE, Component: <Admin/>},
@@ -41,13 +42,11 @@ const AppRouter = () => {
             {isAuth && extractRoutes(authRoutes)}
             {extractRoutes(publicRoutes)}
 
-            <Route path={SECTION_GROUPS_ROUTE} element={<SectionGroupsList/>}>
-            </Route>
+            <Route path={SECTION_GROUPS_ROUTE} element={<SectionGroupsList/>}/>
+            <Route path={SECTION_GROUP_ROUTE + "/:id"} element={<SectionGroup/>}/>
 
-            <Route path={SECTION_GROUP_ROUTE + "/:id"} element={<SectionGroup/>}>
-            </Route>
-
-            <Route path={EDIT_USERS_ROUTE} element={<EditUsers/>}/>
+            <Route path={EDIT_USERS_ROUTE} element={<EditUsersList/>}/>
+            <Route path={EDIT_USERS_ROUTE + "/:id"} element={<EditUser/>}/>
 
             {!isAuth && extractRoutes([{path: LOGIN_ROUTE, Component: <Login/>}])}
 
