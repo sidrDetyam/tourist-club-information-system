@@ -35,7 +35,14 @@ public class SectionGroupService {
 
     @Transactional
     public void deleteGroup(final long id){
-        sectionGroupRepository.deleteById(id);
+        final SectionGroup group = sectionGroupRepository.findById(id).orElseThrow();
+        group.getTourists().forEach(t -> t.getSectionGroups().remove(group));
+        if(group.getTrainer() != null) {
+            group.getTrainer().getTrainerSectionGroups().remove(group);
+        }
+        group.setTrainer(null);
+        group.getTourists().clear();
+        sectionGroupRepository.delete(group);
     }
 
     @Transactional

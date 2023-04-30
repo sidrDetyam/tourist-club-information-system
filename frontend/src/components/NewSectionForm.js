@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
-import {Button, Col, Row} from "react-bootstrap";
-import UploadIcon from "./icons/UploadIcon";
-import api from "../http/Api";
+import React from 'react';
 import useInput from "../hooks/UseInput";
 import {useNavigate} from "react-router-dom";
-import {SECTION_GROUP_ROUTE} from "../Consts";
+import api from "../http/Api";
+import {SECTIONS_ROUTE} from "../Consts";
+import {Button, Col, Row} from "react-bootstrap";
+import UploadIcon from "./icons/UploadIcon";
 
-const NewSectionGroupForm = ({section}) => {
-
+const NewSectionForm = () => {
     const input = useInput("")
     const nav = useNavigate()
 
     const onSaveClick = () => {
-        api.post("section-groups/create", {sectionId: section.id, name: input.value})
+        api.post("sections/create", {name: input.value})
             .then((response) => {
-                nav(`${SECTION_GROUP_ROUTE}/${response.data}`)
+                nav(`${SECTIONS_ROUTE}`)
             })
             .catch(err => console.log(err))
     }
@@ -22,14 +21,13 @@ const NewSectionGroupForm = ({section}) => {
     return (
         <div className={"container"}>
             <Row className={"mt-5"}>
-                <h2>Новая группа ({section.name})</h2>
+                <h2>Новая секция</h2>
             </Row>
 
             <Row className={"mt-3"}>
                 <Col>
                     <label>
-                        {/*Название группы:*/}
-                        <input className={"form-control"} placeholder={"Название группы"} {...input}></input>
+                        <input className={"form-control"} placeholder={"Название секции"} {...input}></input>
                     </label>
                 </Col>
             </Row>
@@ -45,4 +43,4 @@ const NewSectionGroupForm = ({section}) => {
     );
 };
 
-export default NewSectionGroupForm;
+export default NewSectionForm;

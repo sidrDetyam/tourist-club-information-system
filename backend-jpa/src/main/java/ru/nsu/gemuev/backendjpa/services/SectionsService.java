@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.EditSectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
 import ru.nsu.gemuev.backendjpa.dto.SectionGroupDto;
-import ru.nsu.gemuev.backendjpa.entity.*;
+import ru.nsu.gemuev.backendjpa.dto.requests.CreateSectionRequest;
+import ru.nsu.gemuev.backendjpa.entity.Section;
+import ru.nsu.gemuev.backendjpa.entity.SectionGroup;
 import ru.nsu.gemuev.backendjpa.mappers.ScheduleItemMapper;
 import ru.nsu.gemuev.backendjpa.mappers.SectionGroupMapper;
 import ru.nsu.gemuev.backendjpa.mappers.SectionMapper;
 import ru.nsu.gemuev.backendjpa.repositories.*;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -27,6 +29,7 @@ public class SectionsService {
     private final SectionGroupRepository sectionGroupRepository;
     private final SectionGroupMapper sectionGroupMapper;
     private final ScheduleItemMapper scheduleItemMapper;
+    private final SectionGroupService sectionGroupService;
 
     @Transactional
     public @NonNull List<String> getAllSectionsNames() {
@@ -68,11 +71,13 @@ public class SectionsService {
     public void editSection(final @NonNull EditSectionDto editSectionDto,
                             final @NonNull String managerUsername) {
 
-        final SectionManager manager = managerRepository.findByUsername(managerUsername).orElseThrow();
-        final Section section = manager.getSections().stream()
-                .filter(s -> Objects.equals(s.getId(), editSectionDto.getId()))
-                .findFirst()
-                .orElseThrow();
+        final Section section = sectionsRepository.findById(editSectionDto.getId()).orElseThrow();
+
+//        final SectionManager manager = managerRepository.findByUsername(managerUsername).orElseThrow();
+//        final Section section = manager.getSections().stream()
+//                .filter(s -> Objects.equals(s.getId(), editSectionDto.getId()))
+//                .findFirst()
+//                .orElseThrow();
 
         if (editSectionDto.getName() != null) {
             section.setName(editSectionDto.getName());
@@ -110,5 +115,28 @@ public class SectionsService {
             item.setSectionGroup(group);
             group.getScheduleItems().add(item);
         }
+    }
+
+    @Transactional
+    public void createSection(final @NonNull CreateSectionRequest request){
+        final Section section = new Section();
+        section.setName(request.getName());
+        sectionsRepository.save(section);
+    }
+
+    @Transactional
+    public void deleteSection(final long id){
+        final Section section = sectionsRepository.findById(id).orElseThrow();
+        if(section.getSectionManager() != null){
+            section.getSectionManager().getSections().remove(section);
+            section.setSectionManager(null);
+        }
+        section.getTrainers().forEach(t -> t.setSection(null));
+        section.getTrainers().clear();
+
+        section.getSectionGroup().forEach(t -> sectionGroupService.deleteGroup(t.getId()));
+        section.getSectionGroup().clear();
+
+        sectionsRepository.delete(section);
     }
 }

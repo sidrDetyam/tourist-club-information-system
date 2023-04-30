@@ -43,14 +43,21 @@ const SectionTab = ({info, updateCb, trainers}) => {
             })
     }
 
+    const onDeleteClick = () => {
+        api.post("/sections/delete", {id: info.sectionId})
+            .then(() => {
+                setEdit(false)
+                updateCb()
+            })
+    }
+
     const [checked, setChecked] = useState([]);
     const handleCheck = (id) => {
         return () => {
             var updatedList = [...checked];
-            if(isChecked(id)){
+            if (isChecked(id)) {
                 updatedList.splice(checked.indexOf(id), 1);
-            }
-            else{
+            } else {
                 updatedList = [...checked, id];
             }
             setChecked(updatedList);
@@ -78,7 +85,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
                                 <Button variant={"outline-primary"} onClick={onEditClick}>
                                     <XIcon size={20}/>
                                 </Button>
-                                <Button variant={"danger"}>
+                                <Button variant={"danger"} onClick={onDeleteClick}>
                                     <TrashIcon size={20}/>
                                 </Button>
                             </>
@@ -95,8 +102,12 @@ const SectionTab = ({info, updateCb, trainers}) => {
                         </Col>
                     </Row>
                     <Row>
-                        <UserCard name={info.manager.firstName} surname={info.manager.secondName}
-                                  email={info.manager.email}/>
+                        {info.manager === null ?
+                            <h5>Нет руководителя</h5>
+                            :
+                            <UserCard name={info.manager.firstName} surname={info.manager.secondName}
+                                      email={info.manager.email}/>
+                        }
                     </Row>
                 </>
             }
@@ -111,8 +122,11 @@ const SectionTab = ({info, updateCb, trainers}) => {
             {!isEdit && <Row>
                 {info.trainers.length !== 0 ? info.trainers.map(trainer => (
                         <UserCard key={trainer.username}
-                                  name={trainer.firstName} surname={trainer.secondName}
-                                  email={trainer.email}/>
+                                  name={trainer.firstName}
+                                  surname={trainer.secondName}
+                                  email={trainer.email}
+                                  categoty={trainer.trainerCategory}
+                        />
                     ))
                     :
                     <h5>Нет прикрепленных к секции тренеров</h5>
@@ -129,10 +143,11 @@ const SectionTab = ({info, updateCb, trainers}) => {
 
                                  rowComponentFactory={(index) => {
                                      const flag = isChecked(index)
-                                    return (<Button variant={flag? "primary" : "outline-secondary"}
-                                            onClick={handleCheck(index)}>
+                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                                     onClick={handleCheck(index)}>
                                          <CheckIcon size={20}></CheckIcon>
-                                    </Button>)}}
+                                     </Button>)
+                                 }}
                     />
                 </Row>
             </>

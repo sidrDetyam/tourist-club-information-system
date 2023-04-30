@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Row} from "react-bootstrap";
 import api from "../http/Api";
 import {SECTION_GROUP_ROUTE} from "../Consts";
 import NavBarButton from "../components/NavBarButton";
 import PlusIcon from "../components/icons/PlusIcon";
 import NewSectionGroupForm from "../components/NewSectionGroupForm";
+import NewSectionForm from "../components/NewSectionForm";
 
 const noForm = 0;
 const newSection = 1;
@@ -28,6 +29,10 @@ function SectionGroupsList() {
     const onNewGroupClick = (sectionId) => () => {
         setCurSecId(sectionId)
         setCurrentEdit(newGroup)
+    }
+
+    const onNewSectionClick = () => {
+        setCurrentEdit(newSection)
     }
 
     return (
@@ -59,7 +64,7 @@ function SectionGroupsList() {
 
                     <Row className={"mt-5"}>
                         <div>
-                            <Button variant={"outline-primary"}>
+                            <Button variant={"outline-primary"} onClick={onNewSectionClick}>
                                 <PlusIcon size={20}></PlusIcon>
                             </Button>
                         </div>
@@ -69,6 +74,12 @@ function SectionGroupsList() {
                 {currentEdit === newGroup &&
                     <Col className={"col-8"}>
                         <NewSectionGroupForm section={curSecId}/>
+                    </Col>
+                }
+
+                {currentEdit === newSection &&
+                    <Col className={"col-8"}>
+                        <NewSectionForm/>
                     </Col>
                 }
             </Row>

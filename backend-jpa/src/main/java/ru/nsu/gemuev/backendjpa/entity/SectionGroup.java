@@ -28,7 +28,7 @@ public class SectionGroup {
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
-    @ManyToMany(mappedBy = "sectionGroups")
+    @ManyToMany(mappedBy = "sectionGroups", cascade = CascadeType.ALL)
     private Set<Tourist> tourists;
 
     @OneToMany(mappedBy = "sectionGroup", cascade = CascadeType.ALL, orphanRemoval = true)

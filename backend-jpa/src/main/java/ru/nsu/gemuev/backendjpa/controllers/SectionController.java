@@ -6,12 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.*;
+import ru.nsu.gemuev.backendjpa.dto.requests.CreateSectionRequest;
 import ru.nsu.gemuev.backendjpa.security.services.AuthService;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
 import ru.nsu.gemuev.backendjpa.services.TouristService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
@@ -68,8 +68,20 @@ public class SectionController {
     }
 
     @PostMapping("/edit-schedule")
-    public ResponseEntity<StatusDto> editSchedule(@RequestBody SectionGroupDto sectionGroupDto){
+    public ResponseEntity<Void> editSchedule(@RequestBody SectionGroupDto sectionGroupDto){
         sectionsService.editSchedule(sectionGroupDto);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> createSection(@RequestBody CreateSectionRequest request){
+        sectionsService.createSection(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> deleteSection(@RequestBody RequestIdDto requestIdDto){
+        sectionsService.deleteSection(requestIdDto.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

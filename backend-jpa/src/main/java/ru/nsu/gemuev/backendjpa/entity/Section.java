@@ -28,6 +28,9 @@ public class Section {
     @JoinColumn(name = "manager_id")
     private SectionManager sectionManager;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "section", cascade = CascadeType.PERSIST)
     private Set<SectionGroup> sectionGroup;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.PERSIST)
+    private Set<Trainer> trainers;
 }

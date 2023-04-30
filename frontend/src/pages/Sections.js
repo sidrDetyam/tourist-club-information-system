@@ -27,7 +27,7 @@ function Sections() {
                 api.get("sections/all-info").then(value => {
                     const data = value.data;
                     data.forEach(info => {
-                        info.canEdit = info.manager.id === user.data.id;
+                        info.canEdit = true//info.manager.id === user.data.id;
                         info.isEdit = false;
                     })
                     data.sort((a, b) => a.sectionId - b.sectionId)

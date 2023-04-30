@@ -142,7 +142,10 @@ const SectionGroup = () => {
             name: inputs.name
         }
         // console.log(newInfo)
-        api.post("section-groups/edit", newInfo).then(() => setState(s => s+1))
+        api.post("section-groups/edit", newInfo).then(() => {
+            setState(s => s+1)
+            setEdit(false)
+        })
     }
 
     return (
