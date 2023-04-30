@@ -2,7 +2,14 @@ import React, {useCallback} from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {useNavigate} from "react-router-dom";
-import {EDIT_USERS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SECTION_GROUPS_ROUTE, SECTIONS_ROUTE} from "../Consts";
+import {
+    EDIT_USERS_ROUTE,
+    HOME_ROUTE,
+    LOGIN_ROUTE,
+    PROFILE_ROUTE,
+    SECTION_GROUPS_ROUTE,
+    SECTIONS_ROUTE
+} from "../Consts";
 import {Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
@@ -46,7 +53,7 @@ export const BruhNavBar = () => {
 
                             <NavBarButton route={HOME_ROUTE} title={"Походы"}/>
 
-                            <NavBarButton route={HOME_ROUTE} title={"Личный кабинет"}/>
+                            <NavBarButton route={PROFILE_ROUTE} title={"Личный кабинет"}/>
 
                             <NavBarButton route={EDIT_USERS_ROUTE} title={"Пользователи"}/>
 

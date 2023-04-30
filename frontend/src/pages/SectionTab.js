@@ -19,7 +19,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
     const sectionName = useInput(info.name)
     const [isEdit, setEdit] = useState(false)
 
-    console.log(info)
+    // console.log(info)
 
     const onEditClick = useCallback(() => {
         const bruh = []

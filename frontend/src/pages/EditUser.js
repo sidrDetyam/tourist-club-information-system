@@ -28,7 +28,7 @@ const inputTemplate = (inputs, setInputs, field, ph) => {
     </Row>
 }
 
-const EditUser = () => {
+const EditUser = ({type}) => {
 
     const params = useParams();
     const userId = params.id
@@ -43,31 +43,40 @@ const EditUser = () => {
     })
 
     useEffect(() => {
-        api_rejected.post("trainers/get-by-id", {id: userId})
-            .then(response => {
-                setInputs({...response.data, userType: trainerType, originUserType: trainerType})
-            })
-            .catch(() => {
-                api_rejected.post("tourists/get-by-id", {id: userId})
-                    .then(response => {
-                        setInputs({...response.data, userType: touristType, originUserType: touristType})
-                    })
-                    .catch(err => {
-                        console.log("мэнэждер")
-                    })
-            })
-    }, [userId])
+        if(type==="edit") {
+            api_rejected.post("trainers/get-by-id", {id: userId})
+                .then(response => {
+                    setInputs({...response.data, userType: trainerType, originUserType: trainerType})
+                })
+                .catch(() => {
+                    api_rejected.post("tourists/get-by-id", {id: userId})
+                        .then(response => {
+                            setInputs({...response.data, userType: touristType, originUserType: touristType})
+                        })
+                        .catch(err => {
+                            console.log("мэнэждер")
+                        })
+                })
+        }
+    }, [type, userId])
 
     const onSaveClick = () => {
-        if(inputs.userType !== managerType){
-            if(inputs.originUserType !== inputs.userType){
-                const url = inputs.originUserType===touristType? "trainers/increase" : "trainers/reduce"
-                api_rejected.post(url, {id: userId})
-                    .then(() => {
-                        api_rejected.post("users/edit", inputs)
-                    })
-                    .catch(e => console.log(e))
+        if(type === "edit") {
+            if (inputs.userType !== managerType) {
+                if (inputs.originUserType !== inputs.userType) {
+                    const url = inputs.originUserType === touristType ? "trainers/increase" : "trainers/reduce"
+                    api_rejected.post(url, {id: userId})
+                        .then(() => {
+                            api_rejected.post("users/edit", inputs)
+                        })
+                        .catch(e => console.log(e))
+                } else {
+                    api_rejected.post("users/edit", inputs)
+                }
             }
+        }
+        else{
+            api.post("/tourists/create", inputs);
         }
     }
 
@@ -91,7 +100,7 @@ const EditUser = () => {
                                     onChange={e => setInputs({...inputs, userType: Number(e.target.value)})}>
                                 <option value={touristType}>Турист</option>
                                 <option value={trainerType}>Тренер</option>
-                                <option value={managerType}>Мэнеджер</option>
+                                {/*<option value={managerType}>Мэнеджер</option>*/}
                             </select>
 
                         </div>

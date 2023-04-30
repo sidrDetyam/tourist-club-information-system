@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
+import ru.nsu.gemuev.backendjpa.dto.requests.CreateUserRequest;
 import ru.nsu.gemuev.backendjpa.dto.requests.TouristRequest;
 import ru.nsu.gemuev.backendjpa.services.TouristService;
 
@@ -34,5 +35,11 @@ public class TouristController {
     @PostMapping("/get-by-id")
     public ResponseEntity<TouristDto> getTouristById(@RequestBody IdDto request){
         return new ResponseEntity<>(touristService.getById(request.getId()), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> createTourist(@RequestBody CreateUserRequest createUserRequest){
+        touristService.createUser(createUserRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
 import ru.nsu.gemuev.backendjpa.dto.TrainerDto;
+import ru.nsu.gemuev.backendjpa.dto.requests.CreateUserRequest;
 import ru.nsu.gemuev.backendjpa.dto.requests.TouristRequest;
 import ru.nsu.gemuev.backendjpa.dto.UserDto;
 import ru.nsu.gemuev.backendjpa.entity.Tourist;
@@ -15,12 +16,15 @@ import ru.nsu.gemuev.backendjpa.entity.TouristCategory;
 import ru.nsu.gemuev.backendjpa.mappers.TouristMapper;
 import ru.nsu.gemuev.backendjpa.mappers.TrainerMapper;
 import ru.nsu.gemuev.backendjpa.mappers.UserMapper;
+import ru.nsu.gemuev.backendjpa.repositories.RoleRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristCategoryRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
 import ru.nsu.gemuev.backendjpa.repositories.TrainersRepository;
+import ru.nsu.gemuev.backendjpa.security.entities.Role;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -32,6 +36,7 @@ public class TouristService {
     private final TouristRepository touristRepository;
     private final TouristMapper touristMapper;
     private final TrainerMapper trainerMapper;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public List<UserDto> getAllTrainers(){
@@ -85,8 +90,21 @@ public class TouristService {
     }
 
     @Transactional
-    public @NonNull TouristDto getById(long id){
+    public @NonNull TouristDto getById(final long id){
         return touristMapper.toDto(touristRepository
                 .findById(id).orElseThrow());
+    }
+
+    @Transactional
+    public void createUser(@NonNull final CreateUserRequest request){
+        final Tourist tourist = new Tourist();
+        tourist.setEmail(request.getEmail());
+        tourist.setUsername(request.getUsername());
+        tourist.setFirstName(request.getFirstName());
+        tourist.setLastName(request.getSecondName());
+        tourist.setPassword("");
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("USER").orElseThrow());
+        tourist.setRoles(roles);
+        touristRepository.save(tourist);
     }
 }

@@ -9,8 +9,8 @@ import ru.nsu.gemuev.backendjpa.entity.Trainer;
 public interface TrainerMapper {
     @Mapping(target = "secondName", source = "lastName")
     @Mapping(target = "touristCategory",
-            expression = "java(trainer.getCategory().getValue())")
+            expression = "java(trainer.getCategory() == null? null : trainer.getCategory().getValue())")
     @Mapping(target = "trainerCategory",
-            expression = "java(trainer.getTrainerCategory().getValue())")
+            expression = "java(trainer.getTrainerCategory() == null? null : trainer.getTrainerCategory().getValue())")
     TrainerDto toDto(Trainer trainer);
 }

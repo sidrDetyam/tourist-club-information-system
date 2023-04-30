@@ -3,9 +3,10 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import api from "../http/Api";
 import FieldSearch from "../components/FieldSearch";
 import EntityTable from "../components/EntityTable";
-import {EDIT_USERS_ROUTE} from "../Consts";
+import {CREATE_USER, EDIT_USERS_ROUTE} from "../Consts";
 import EditIcon from "../components/icons/EditIcon";
 import {useNavigate} from "react-router-dom";
+import PlusIcon from "../components/icons/PlusIcon";
 
 const EditUsersList = () => {
 
@@ -96,7 +97,6 @@ const EditUsersList = () => {
             })
         }
 
-
         useEffect(() => {
                 api.get("tourists/category-info").then(value => {
                     const cat = [{id: null, value: "Любая"}]
@@ -113,6 +113,10 @@ const EditUsersList = () => {
             , [setTouristCategories, setTrainerCategories])
 
         const nav = useNavigate()
+
+        const onCreateTouristClick = () => {
+            nav(CREATE_USER)
+        }
 
         return (
             <Container>
@@ -147,6 +151,14 @@ const EditUsersList = () => {
                     }
                 </Row>
 
+                <Row className={"justify-content-center"}>
+                    <div className={"col-1"}>
+                        <Button variant={"secondary"} onClick={onCreateTouristClick}>
+                            <PlusIcon size={22}/>
+                        </Button>
+                    </div>
+                </Row>
+
                 <Row className={"mt-5"}>
                     <Col>
                         <h2>Тренеры</h2>
@@ -163,7 +175,18 @@ const EditUsersList = () => {
                         :
                         <EntityTable data={trainers}
                                      fields={["firstName", "secondName", "username", "email", "touristCategory", "trainerCategory"]}
-                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория", "Квалификация"]}/>
+                                     head={["Имя", "Фамилия", "Имя пользователя", "email", "Категория", "Квалификация"]}
+
+                                     rowComponentFactory={(index) => {
+                                         return (
+                                             <Button
+                                                 variant={"outline-secondary"}
+                                                 onClick={() => nav(`${EDIT_USERS_ROUTE}/${trainers[index].id}`)}>
+                                                 <EditIcon size={20}></EditIcon>
+                                             </Button>
+                                         )
+                                     }}
+                        />
                     }
                 </Row>
 

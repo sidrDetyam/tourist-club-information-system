@@ -13,6 +13,9 @@ export const SECTION_GROUP_ROUTE = '/section-group'
 
 export const EDIT_USERS_ROUTE = '/edit-users'
 
+export const PROFILE_ROUTE = "/profile"
+
+export const CREATE_USER = "/create-user"
 
 ////
 

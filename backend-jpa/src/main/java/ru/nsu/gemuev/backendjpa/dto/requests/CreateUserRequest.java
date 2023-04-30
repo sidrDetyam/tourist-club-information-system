@@ -5,6 +5,9 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class EditUserRequest {
-    
+public class CreateUserRequest {
+    private String firstName;
+    private String secondName;
+    private String email;
+    private String username;
 }

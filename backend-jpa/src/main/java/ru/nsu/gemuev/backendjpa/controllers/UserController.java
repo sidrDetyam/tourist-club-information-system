@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.UserDto;
 import ru.nsu.gemuev.backendjpa.security.services.AuthService;
 import ru.nsu.gemuev.backendjpa.services.UserService;
@@ -26,5 +24,9 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-
+    @PostMapping("/edit")
+    public ResponseEntity<Void> edit(@RequestBody UserDto request){
+        userService.editUser(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
