@@ -10,7 +10,7 @@ import {
     SECTIONS_ROUTE
 } from "../Consts";
 import Login from "../pages/Login";
-import Admin from "./Admin";
+import Admin from "../components/Admin";
 import Home from "../pages/Home";
 import Sections from "../pages/Sections";
 import SectionGroupsList from "../pages/SectionGroupsList";

@@ -15,8 +15,8 @@ import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsAuthAction} from "../store/UserReducer";
 import {clearTokens} from "../services/AuthService";
-import NavBarButton from "./NavBarButton";
-import LogoutIcon from "./icons/LogoutIcon";
+import NavBarButton from "../components/NavBarButton";
+import LogoutIcon from "../components/icons/LogoutIcon";
 
 export const BruhNavBar = () => {
     const dispatch = useDispatch()

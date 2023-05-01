@@ -1,10 +1,10 @@
 import './App.css';
 import {BrowserRouter} from "react-router-dom";
-import AppRouter from "./components/AppRouter";
+import AppRouter from "./navigation/AppRouter";
 import {useDispatch} from "react-redux";
 import {setIsAuthAction} from "./store/UserReducer";
 import {ACCESS_TOKEN_LS} from "./Consts";
-import {BruhNavBar} from "./components/BruhNavBar";
+import {BruhNavBar} from "./navigation/BruhNavBar";
 import {useEffect, useState} from "react";
 import FullPageLoading from "./components/FullPageLoading";
 

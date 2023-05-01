@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "schedule")
 @NoArgsConstructor
@@ -18,8 +21,8 @@ public class ScheduleItem {
     @Column(name = "day")
     private Long day;
 
-    @Column(name = "time")
-    private String time;
+    @Column(name = "time_")
+    private LocalTime time;
 
     @Column(name = "place")
     private String place;
