@@ -54,13 +54,15 @@ public class PointsService {
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", id);
 
-        namedParameterJdbcTemplate.update(
-                "delete from routes_control_points where point_id=:id; " +
-                "delete from control_points where id=:id", parameters, holder);
+        namedParameterJdbcTemplate.update("delete from routes_control_points where point_id=:id",
+                parameters, holder);
+
+        namedParameterJdbcTemplate.update("delete from control_points where id=:id",
+                parameters, holder);
     }
 
     @Transactional
-    public void editPoint(final @NonNull PointDto request){
+    public void editPoint(final @NonNull PointDto request) {
         RequestFieldChecker.requireNonNull(request.getPoint());
         RequestFieldChecker.requireNonNull(request.getDescription());
         RequestFieldChecker.requireNonNull(request.getId());

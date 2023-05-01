@@ -10,7 +10,7 @@ const GET_POINT_URL = "/points/get-by-id"
 const EDIT_POINT_URL = "/points/edit"
 const DELETE_POINT_URL = "/points/delete"
 
-const ControlPointForm = ({id}) => {
+const ControlPointForm = ({id, updateStateCb}) => {
 
     const [inputs, setInputs] = useState({
             point: "",
@@ -19,14 +19,17 @@ const ControlPointForm = ({id}) => {
 
     const onSaveClick = () => {
         api.post(CREATE_POINT_URL, inputs)
+            .then(() => updateStateCb())
     }
 
     const onEditClick = () => {
         api.post(EDIT_POINT_URL, {id: id, ...inputs})
+            .then(() => updateStateCb())
     }
 
     const onDeletePointClick = () => {
         api.post(DELETE_POINT_URL, {id: id})
+            .then(() => updateStateCb())
     }
 
     useEffect(() => {
