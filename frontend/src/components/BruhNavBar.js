@@ -3,7 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {useNavigate} from "react-router-dom";
 import {
-    EDIT_USERS_ROUTE,
+    EDIT_USERS_ROUTE, HIKES_LIST_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE,
     PROFILE_ROUTE,
@@ -51,7 +51,7 @@ export const BruhNavBar = () => {
 
                             <NavBarButton route={HOME_ROUTE} title={"Соревнования"}/>
 
-                            <NavBarButton route={HOME_ROUTE} title={"Походы"}/>
+                            <NavBarButton route={HIKES_LIST_ROUTE} title={"Походы"}/>
 
                             <NavBarButton route={PROFILE_ROUTE} title={"Личный кабинет"}/>
 

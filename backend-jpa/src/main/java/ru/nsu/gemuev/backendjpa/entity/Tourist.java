@@ -24,4 +24,10 @@ public class Tourist extends User {
             joinColumns = @JoinColumn(name = "tourist_id"),
             inverseJoinColumns = @JoinColumn(name = "section_group_id"))
     private Set<SectionGroup> sectionGroups;
+
+    @ManyToMany
+    @JoinTable(name = "tourists_hikes",
+            joinColumns = @JoinColumn(name = "tourist_id"),
+            inverseJoinColumns = @JoinColumn(name = "hike_id"))
+    private Set<Hike> hikes;
 }

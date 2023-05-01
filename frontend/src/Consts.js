@@ -17,6 +17,8 @@ export const PROFILE_ROUTE = "/profile"
 
 export const CREATE_USER = "/create-user"
 
+export const HIKES_LIST_ROUTE = "/hikes"
+
 ////
 
 export const ACCESS_TOKEN_LS = 'access-token'
