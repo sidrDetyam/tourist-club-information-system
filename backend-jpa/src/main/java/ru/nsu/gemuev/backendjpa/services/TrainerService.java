@@ -5,8 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.Utils.SpecificationUtils;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
@@ -29,6 +27,7 @@ public class TrainerService {
     private final TrainersRepository trainersRepository;
     private final TrainerMapper trainerMapper;
     private final JdbcTemplate jdbcTemplate;
+    private final TouristService touristService;
 
     @Transactional
     public @NonNull List<CategoryDto> getCategoryDto() {
@@ -76,5 +75,20 @@ public class TrainerService {
     @Transactional
     public void increaseToTrainer(final long id){
         jdbcTemplate.update("INSERT INTO trainers VALUES (?, null, null)", id);
+    }
+
+    @Transactional
+    public void deleteTrainer(final long id){
+        reduceToTourist(id);
+        touristService.delete(id);
+    }
+
+    @Transactional
+    public void edit(final @NonNull TrainerDto request){
+        touristService.edit(request);
+        final Trainer trainer = trainersRepository.findById(request.getId()).orElseThrow();
+        trainer.setTrainerCategory(trainerCategoryRepository
+                .findByValue(request.getTrainerCategory()).orElseThrow());
+        trainersRepository.save(trainer);
     }
 }

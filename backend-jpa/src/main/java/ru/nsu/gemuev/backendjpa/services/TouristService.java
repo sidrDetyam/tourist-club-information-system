@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
@@ -37,6 +38,8 @@ public class TouristService {
     private final TouristMapper touristMapper;
     private final TrainerMapper trainerMapper;
     private final RoleRepository roleRepository;
+    private final JdbcTemplate jdbcTemplate;
+    private final UserService userService;
 
     @Transactional
     public List<UserDto> getAllTrainers(){
@@ -105,6 +108,23 @@ public class TouristService {
         tourist.setPassword("");
         Set<Role> roles = Set.of(roleRepository.findByRoleName("USER").orElseThrow());
         tourist.setRoles(roles);
+        touristRepository.save(tourist);
+    }
+
+    @Transactional
+    public void delete(final long id){
+        jdbcTemplate.update("delete from tourists_section_groups where tourist_id = ?", id);
+        jdbcTemplate.update("delete from tourists where id = ?", id);
+        jdbcTemplate.update("delete from users_roles where user_id = ?", id);
+        jdbcTemplate.update("delete from users where id = ?", id);
+    }
+
+    @Transactional
+    public void edit(final @NonNull TouristDto touristDto){
+        userService.editUser(touristDto);
+        final Tourist tourist = touristRepository.findById(touristDto.getId()).orElseThrow();
+        tourist.setCategory(touristCategoryRepository
+                .getTouristCategoryByValue(touristDto.getTouristCategory()).orElseThrow());
         touristRepository.save(tourist);
     }
 }

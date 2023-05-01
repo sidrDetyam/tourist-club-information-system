@@ -67,7 +67,7 @@ const EditUsersList = () => {
                 onChange: onTrainerInputChange("lastName")
             },
             {
-                label: "Категория тренера", type: "select",
+                label: "Квалификация тренера", type: "select",
                 options: trainerCategories.map(({value}) => value),
                 onIndexChanged: onTrainerInputChange("cat")
             },

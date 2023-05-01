@@ -49,4 +49,16 @@ public class TrainerController {
         trainerService.increaseToTrainer(request.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> delete(@RequestBody IdDto request){
+        trainerService.deleteTrainer(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Void> edit(@RequestBody TrainerDto request){
+        trainerService.edit(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

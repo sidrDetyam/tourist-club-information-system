@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
+import ru.nsu.gemuev.backendjpa.dto.UserDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreateUserRequest;
 import ru.nsu.gemuev.backendjpa.dto.requests.TouristRequest;
 import ru.nsu.gemuev.backendjpa.services.TouristService;
@@ -40,6 +41,18 @@ public class TouristController {
     @PostMapping("/create")
     public ResponseEntity<Void> createTourist(@RequestBody CreateUserRequest createUserRequest){
         touristService.createUser(createUserRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> delete(@RequestBody IdDto request){
+        touristService.delete(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Void> edit(@RequestBody TouristDto request){
+        touristService.edit(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

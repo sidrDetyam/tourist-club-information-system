@@ -4,7 +4,7 @@ import Image from "react-bootstrap/Image";
 
 function UserCard({name, surname, email, categoty, photoUrl}) {
 
-    if(photoUrl === undefined){
+    if (photoUrl === undefined) {
         photoUrl = 'https://villagesonmacarthur.com/wp-content/uploads/2020/12/Blank-Avatar.png'
     }
 
@@ -19,7 +19,9 @@ function UserCard({name, surname, email, categoty, photoUrl}) {
                         <Col xs={6} className={"d-flex flex-column justify-content-center align-items-center"}>
                             <h3 className={"text-center"}>{surname}</h3>
                             <h3 className={"text-center"}>{name}</h3>
-                            <h5 className={"text-center"} style={{color: "darkgray"}}>{email}</h5>
+                            <Col md={12}>
+                                <h5 className={"text-center"} style={{color: "darkgray"}}>{email}</h5>
+                            </Col>
                             <h5 className={"text-center"} style={{color: "gray"}}>{categoty}</h5>
                         </Col>
                     </Row>

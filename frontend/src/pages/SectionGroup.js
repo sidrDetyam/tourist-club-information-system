@@ -43,6 +43,10 @@ const SectionGroup = () => {
     const [trainers, setTrainers] = useState([])
     const [tourists, setTourists] = useState([])
 
+    const [isEdit, setEdit] = useState(false)
+    const [inputs, setInputs] = useState({name: "", trainer: null, tourists: []})
+    const nav = useNavigate()
+
     useEffect(() => {
         api.post("trainers/get", {}).then(t => setTrainers(t.data))
         api.post("tourists/get", {}).then(t => setTourists(t.data))
@@ -53,10 +57,14 @@ const SectionGroup = () => {
                 console.log(value.data)
                 setTableData(value.data.schedule)
                 setInfo(value.data)
+                setInputs(s => {
+                    s.name = value.data.name
+                    return s
+                })
             })
                 .catch(error => console.log(error))
         }
-        , [groupId, setInfo, setTableData, state])
+        , [groupId, setInfo, setTableData, state, setInputs])
 
     const onUploadScheduleClick = () => {
         const changes = {
@@ -98,10 +106,6 @@ const SectionGroup = () => {
         const newItem = {id: null, day: 0, time: "", type: "", place: ""}
         setTableData([...tableData, newItem])
     }
-
-    const [isEdit, setEdit] = useState(false)
-    const [inputs, setInputs] = useState({name: "", trainer: null, tourists: []})
-    const nav = useNavigate()
 
     const onDeleteClick = () => {
         api.post("section-groups/delete", {id: groupId})
@@ -154,7 +158,7 @@ const SectionGroup = () => {
             <Row className={"mt-5"}>
                 <Col md={3}>
                     {isEdit ?
-                        <input type={"text"} className={"form-control"}
+                        <input type={"text"} className={"form-control"} value={inputs.name}
                                onChange={(e) => setInputs({...inputs, name: e.target.value})}></input>
                         :
                         <h2>Группа {info.name}</h2>
@@ -349,7 +353,7 @@ const SectionGroup = () => {
                     /> : (info.tourists.length === 0 ?
                         <h4>Нет туристов</h4>
                         : (<>
-                            {info.tourists.map((t, index) => (
+                            {info.tourists.map((t) => (
                                 <UserCard key={t.id} name={t.firstName} surname={t.secondName}
                                           email={t.email} categoty={t.touristCategory}></UserCard>)
                             )}
