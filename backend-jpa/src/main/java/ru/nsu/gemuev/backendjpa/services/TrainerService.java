@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import ru.nsu.gemuev.backendjpa.Utils.SpecificationUtils;
+import ru.nsu.gemuev.backendjpa.utils.SpecificationUtils;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.TrainerDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.TrainerRequest;

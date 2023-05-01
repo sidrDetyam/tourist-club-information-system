@@ -82,7 +82,7 @@ const EditUser = ({type}) => {
                         .then(response => {
                             setInputs({...response.data, userType: touristType, originUserType: touristType})
                         })
-                        .catch(err => {
+                        .catch(() => {
                             console.log("мэнэждер")
                         })
                 })

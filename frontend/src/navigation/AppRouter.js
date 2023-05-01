@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useSelector} from "react-redux";
 import {
-    ADMIN_ROUTE, CREATE_USER, EDIT_USERS_ROUTE, HIKES_LIST_ROUTE,
+    ADMIN_ROUTE, CREATE_USER, EDIT_USERS_ROUTE, HIKE_ROUTES, HIKES_LIST_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE, PROFILE_ROUTE,
     SECTION_GROUP_ROUTE,
@@ -20,6 +20,7 @@ import EditUser from "../pages/EditUser";
 import Profile from "../pages/Profile";
 import HikesList from "../pages/HikesList";
 import Hike from "../pages/Hike";
+import HikeRoutes from "../pages/HikeRoutes";
 
 const authRoutes = [
     {path: ADMIN_ROUTE, Component: <Admin/>},
@@ -57,6 +58,8 @@ const AppRouter = () => {
 
             <Route path={HIKES_LIST_ROUTE} element={<HikesList/>}/>
             <Route path={HIKES_LIST_ROUTE + "/:id"} element={<Hike/>}/>
+
+            <Route path={HIKE_ROUTES} element={<HikeRoutes/>}/>
 
             {!isAuth && extractRoutes([{path: LOGIN_ROUTE, Component: <Login/>}])}
 

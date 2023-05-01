@@ -1,10 +1,10 @@
 package ru.nsu.gemuev.backendjpa.config;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.nsu.gemuev.backendjpa.utils.NullRequestFieldException;
 
 import java.util.NoSuchElementException;
 
@@ -12,7 +12,13 @@ import java.util.NoSuchElementException;
 public class ControllerExceptionHandler {
     @ExceptionHandler(value = {NoSuchElementException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String constraintViolationException(Exception ex) {
-        return "Bad request";
+    public String noSuchElement(Exception ex) {
+        return "Entity not found";
+    }
+
+    @ExceptionHandler(value = {NullRequestFieldException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String nullField(NullRequestFieldException ex) {
+        return ex.getMessage();
     }
 }

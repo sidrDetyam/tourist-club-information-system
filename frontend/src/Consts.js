@@ -19,6 +19,8 @@ export const CREATE_USER = "/create-user"
 
 export const HIKES_LIST_ROUTE = "/hikes"
 
+export const HIKE_ROUTES = "/routes"
+
 ////
 
 export const ACCESS_TOKEN_LS = 'access-token'

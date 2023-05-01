@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Row} from "react-bootstrap";
-import {HIKES_LIST_ROUTE} from "../Consts";
+import {HIKE_ROUTES, HIKES_LIST_ROUTE} from "../Consts";
 import api from "../http/Api";
+import EditIcon from "../components/icons/EditIcon";
+import {useNavigate} from "react-router-dom";
 
 const HikesList = () => {
 
     const [hikes, setHikes] = useState([])
+    const nav = useNavigate()
 
     useEffect(() => {
         api.get("hikes/all")
@@ -29,6 +32,15 @@ const HikesList = () => {
                         </Row>
                     ))
                 }
+            </Row>
+
+            <Row className={"mt-3"}>
+                <div>
+                    <Button variant={"outline-secondary"} onClick={() => nav(HIKE_ROUTES)}>
+                        <EditIcon size={20}></EditIcon>
+                          Маршруты
+                    </Button>
+                </div>
             </Row>
 
         </div>

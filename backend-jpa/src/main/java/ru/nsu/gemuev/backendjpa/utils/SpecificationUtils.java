@@ -1,9 +1,8 @@
-package ru.nsu.gemuev.backendjpa.Utils;
+package ru.nsu.gemuev.backendjpa.utils;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
-import ru.nsu.gemuev.backendjpa.entity.Tourist;
 
 @UtilityClass
 public class SpecificationUtils {
