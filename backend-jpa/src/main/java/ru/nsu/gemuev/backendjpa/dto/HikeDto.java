@@ -15,4 +15,5 @@ public class HikeDto {
     private String description;
     private List<DiaryRecordDto> diaryRecords;
     private String name;
+    private RouteDto route;
 }

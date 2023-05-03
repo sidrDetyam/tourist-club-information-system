@@ -10,6 +10,7 @@ import java.util.List;
 public class RouteDto {
     private Long id;
     private String name;
-    private CategoryDto categoryDto;
+    private CategoryDto category;
     private List<PointDto> points;
+    private String description;
 }

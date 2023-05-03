@@ -12,4 +12,5 @@ public class EditRouteRequest {
     private Long categoryId;
     private String name;
     private List<Long> pointIds;
+    private String description;
 }

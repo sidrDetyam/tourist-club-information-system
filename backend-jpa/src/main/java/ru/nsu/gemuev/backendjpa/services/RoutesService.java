@@ -75,15 +75,17 @@ public class RoutesService {
         RequestFieldChecker.requireNonNull(request.getCategoryId());
         RequestFieldChecker.requireNonNull(request.getName());
         RequestFieldChecker.requireNonNull(request.getPointIds());
+        RequestFieldChecker.requireNonNull(request.getDescription());
 
         final KeyHolder holder = new GeneratedKeyHolder();
         final SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", request.getId())
                 .addValue("name", request.getName())
-                .addValue("category_id", request.getCategoryId());
+                .addValue("category_id", request.getCategoryId())
+                .addValue("descr", request.getDescription());
 
         namedParameterJdbcTemplate.update("delete from routes_control_points where route_id=:id", parameters, holder);
-        namedParameterJdbcTemplate.update("update routes set name=:name, category_id=:category_id where id=:id",
+        namedParameterJdbcTemplate.update("update routes set name=:name, category_id=:category_id, description=:descr where id=:id",
                 parameters, holder);
 
         jdbcTemplate.batchUpdate("insert into routes_control_points (route_id, point_id) values(?,?)",

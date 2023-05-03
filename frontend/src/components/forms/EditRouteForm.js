@@ -17,23 +17,28 @@ const GET_ALL_POINTS_URL = "/points/get-all"
 
 const EditRouteForm = ({id, updateStateCb}) => {
 
-    const [inputs, setInputs] = useState({name: "", curCat: -1})
+    const [inputs, setInputs] = useState({name: "", curCat: 0, cat: 0, descr: ""})
     const [cats, setCats] = useState([])
     const [points, setPoints] = useState([])
 
     const check = useSelect()
 
     useEffect(() => {
-        // check.setChecked([])
-
         api.get(GET_ALL_POINTS_URL)
             .then(pointsR => {
                 setPoints(pointsR.data)
 
                 api_rejected.post(GET_ROUTE_URL, {id: id})
                     .then(response => {
+                        console.log(response.data)
                         setInputs(prev => {
                             prev.name = response.data.name;
+                            if(response.data.description !== null){
+                                prev.descr = response.data.description
+                            }
+                            else{
+                                prev.descr = ""
+                            }
                             return prev;
                         })
 
@@ -45,21 +50,28 @@ const EditRouteForm = ({id, updateStateCb}) => {
                             }
                         })
                         check.setChecked(checked)
+
+                        setInputs(p => {
+                            p.cat = response.data.category.id
+                            return p
+                        })
                     })
             })
-    }, [id, setInputs, check.setChecked])
-
-    useEffect(() => {
-        api_rejected.get(GET_TOURISTS_CATS)
-            .then(response => {
-                setCats(response.data)
-                setInputs(prev => {
-                    prev.curCat = 0
-                    return prev
-                })
+            .then(() => {
+                api_rejected.get(GET_TOURISTS_CATS)
+                    .then(response => {
+                        setCats(response.data)
+                        setInputs(prev => {
+                            prev.curCat = 0
+                            const index = response.data.map(v => v.id).indexOf(prev.cat)
+                            if(index !== -1){
+                                prev.curCat = index
+                            }
+                            return prev
+                        })
+                    })
             })
-
-    }, [setCats])
+    }, [id, setInputs, check.setChecked, setCats])
 
     const onDeleteRouteClick = () => {
         api_rejected.post(DELETE_ROUTE_URL, {id: id})
@@ -77,7 +89,8 @@ const EditRouteForm = ({id, updateStateCb}) => {
             id: id,
             pointIds: rp,
             name: inputs.name,
-            categoryId: cats[inputs.curCat].id
+            categoryId: cats[inputs.curCat].id,
+            description: inputs.descr
         }
 
         // console.log(request)
@@ -111,6 +124,14 @@ const EditRouteForm = ({id, updateStateCb}) => {
                                  </Button>)
                              }}
                 />
+            </Row>
+
+            <Row className={"mt-3"}>
+                <textarea className={"form-control"}
+                    value={inputs.descr} onChange={e => setInputs({...inputs, descr: e.target.value})}
+                    placeholder={"Описание маршрута"}
+                >
+                </textarea>
             </Row>
 
             <Row className={"mt-5"}>

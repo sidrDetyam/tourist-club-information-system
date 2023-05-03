@@ -167,8 +167,9 @@ const SectionGroup = () => {
                 <Col>
                     <div>
                         {!isEdit &&
-                            <Button onClick={() => setEdit(true)}>
+                            <Button onClick={() => setEdit(true)} variant={"secondary"}>
                                 <EditIcon size={20}></EditIcon>
+                                Редактировать
                             </Button>
                         }
 
@@ -239,11 +240,11 @@ const SectionGroup = () => {
                                     <th className={"text-center"}>Тип занятия</th>
                                     <th className={"text-center"}>Место</th>
                                     <th>
-                                        <Button variant={"primary"} onClick={onUploadScheduleClick}>
-                                            <UploadIcon size={16}/>
+                                        <Button variant={"secondary"} onClick={onUploadScheduleClick}>
+                                            <UploadIcon size={20}/>
                                         </Button>
-                                        <Button variant={"outline-primary"} onClick={() => setTableEdit(false)}>
-                                            <XIcon size={16}/>
+                                        <Button variant={"outline-secondary"} onClick={() => setTableEdit(false)}>
+                                            <XIcon size={20}/>
                                         </Button>
                                     </th>
                                 </tr>
@@ -282,7 +283,7 @@ const SectionGroup = () => {
                                             />
                                         </td>
                                         <td>
-                                            <Button variant={"danger"} onClick={onDeleteClicked(index)}>
+                                            <Button variant={"outline-danger"} onClick={onDeleteClicked(index)}>
                                                 <TrashIcon size={16}/>
                                             </Button>
                                         </td>
@@ -293,8 +294,8 @@ const SectionGroup = () => {
 
                             <Row className={"align-items-center justify-content-center"}>
                                 <div style={{width: 20, height: 20}}>
-                                    <Button variant={"primary"} onClick={onAddClicked}>
-                                        <PlusIcon size={16}/>
+                                    <Button variant={"secondary"} onClick={onAddClicked}>
+                                        <PlusIcon size={20}/>
                                     </Button>
                                 </div>
                             </Row>
@@ -318,9 +319,9 @@ const SectionGroup = () => {
 
                                  rowComponentFactory={(index) => {
                                      const flag = isTrainerChecked(index)
-                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                     return (<Button variant={flag ? "secondary" : "outline-secondary"}
                                                      onClick={handleTrainerCheck(index)}>
-                                         <CheckIcon size={20}></CheckIcon>
+                                         {flag? <CheckIcon size={20}/> : <PlusIcon size={20}/>}
                                      </Button>)
                                  }}
                     /> : (info.trainer === null ?
@@ -345,9 +346,9 @@ const SectionGroup = () => {
 
                                  rowComponentFactory={(index) => {
                                      const flag = isTouristChecked(index)
-                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                     return (<Button variant={flag ? "secondary" : "outline-secondary"}
                                                      onClick={handleTouristCheck(index)}>
-                                         <CheckIcon size={20}></CheckIcon>
+                                         {flag? <CheckIcon size={20}/> : <PlusIcon size={20}/>}
                                      </Button>)
                                  }}
                     /> : (info.tourists.length === 0 ?

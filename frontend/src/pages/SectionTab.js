@@ -78,18 +78,18 @@ const SectionTab = ({info, updateCb, trainers}) => {
                 </Col>
                 <Col>
                     {info.canEdit && (!isEdit ?
-                            <Button onClick={onEditClick}>
+                            <Button onClick={onEditClick} variant={"outline-secondary"}>
                                 <EditIcon size={20}/> Редактировать
                             </Button>
                             :
                             <>
-                                <Button variant={"primary"} onClick={onAcceptClick}>
+                                <Button variant={"secondary"} onClick={onAcceptClick}>
                                     <UploadIcon size={20}/>
                                 </Button>
-                                <Button variant={"outline-primary"} onClick={onEditClick}>
+                                <Button variant={"outline-secondary"} onClick={onEditClick}>
                                     <XIcon size={20}/>
                                 </Button>
-                                <Button variant={"danger"} onClick={onDeleteClick}>
+                                <Button variant={"outline-danger"} onClick={onDeleteClick}>
                                     <TrashIcon size={20}/>
                                 </Button>
                             </>
@@ -147,7 +147,7 @@ const SectionTab = ({info, updateCb, trainers}) => {
 
                                  rowComponentFactory={(index) => {
                                      const flag = isChecked(index)
-                                     return (<Button variant={flag ? "primary" : "outline-secondary"}
+                                     return (<Button variant={flag ? "secondary" : "outline-secondary"}
                                                      onClick={handleCheck(index)}>
                                          <CheckIcon size={20}></CheckIcon>
                                      </Button>)

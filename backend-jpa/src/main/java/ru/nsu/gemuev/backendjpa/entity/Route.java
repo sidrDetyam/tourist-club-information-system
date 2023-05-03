@@ -26,6 +26,9 @@ public class Route {
     @JoinColumn(name = "category_id")
     private TouristCategory category;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToMany
     @JoinTable(name = "routes_control_points",
             joinColumns = @JoinColumn(name = "route_id"),
