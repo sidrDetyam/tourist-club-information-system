@@ -69,6 +69,7 @@ public class TrainerService {
     @Transactional
     public void reduceToTourist(final long id){
         jdbcTemplate.update("UPDATE section_groups SET trainer_id=NULL WHERE trainer_id = ?", id);
+        jdbcTemplate.update("update hikes set trainer_id=null where trainer_id = ?", id);
         jdbcTemplate.update("delete from trainers where id=?", id);
     }
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import api, {api_rejected} from "../http/Api";
 import {Button, Col, Row} from "react-bootstrap";
 import EditIcon from "../components/icons/EditIcon";
@@ -15,6 +15,7 @@ import useSelect from "../hooks/UseSelect";
 import useRadioSelect from "../hooks/UseRadioSelect";
 import selectorComponentFactory from "../hooks/SelectorComponentFactory";
 import InputTemplate from "../components/forms/InputTemplate";
+import {HIKES_LIST_ROUTE} from "../Consts";
 
 const GET_HIKE_URL = "hikes/get-by-id"
 const GET_ALL_TOURISTS = "tourists/get"
@@ -27,6 +28,7 @@ const Hike = () => {
 
     const params = useParams();
     const hikeId = params.id
+    const nav = useNavigate()
 
     const [hike, setHike] = useState({})
     const [isEdit, setEdit] = useState(false)
@@ -71,8 +73,8 @@ const Hike = () => {
                 setHike(response.data)
                 setInputs(s => {
                     s.name = response.data.name
-                    s.timeStart = response.data.start.substring(0, 16)
-                    s.timeEnd = response.data.end.substring(0, 16)
+                    s.timeStart = response.data.start?.substring(0, 16)
+                    s.timeEnd = response.data.end?.substring(0, 16)
                     return s
                 })
                 console.log(response.data)
@@ -104,7 +106,8 @@ const Hike = () => {
     }
 
     const onDeleteClick = () => {
-
+        api_rejected.post(DELETE_HIKE, {id: hikeId})
+            .then(() => nav(HIKES_LIST_ROUTE))
     }
 
     if (isLoading) {

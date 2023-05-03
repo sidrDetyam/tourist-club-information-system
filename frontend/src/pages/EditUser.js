@@ -33,6 +33,8 @@ const inputTemplate = (inputs, setInputs, field, ph) => {
     </Row>
 }
 
+const GET_MANAGER = "/managers/get-by-id"
+
 const EditUser = ({type}) => {
 
     const params = useParams();
@@ -83,7 +85,14 @@ const EditUser = ({type}) => {
                             setInputs({...response.data, userType: touristType, originUserType: touristType})
                         })
                         .catch(() => {
-                            console.log("мэнэждер")
+                            api_rejected.post(GET_MANAGER, {id: userId})
+                                .then(responseManager => {
+                                    setInputs({
+                                        ...responseManager.data,
+                                        userType: managerType,
+                                        originUserType: managerType
+                                    })
+                                })
                         })
                 })
         }
@@ -92,7 +101,7 @@ const EditUser = ({type}) => {
     const onSaveClick = () => {
         if (type === "edit") {
             if (inputs.userType !== managerType) {
-                const editUrl = inputs.userType === touristType? "tourists/edit" : "trainers/edit";
+                const editUrl = inputs.userType === touristType ? "tourists/edit" : "trainers/edit";
                 const request = {
                     ...inputs,
                     touristCategory: catInput.tur[catInput.curTur].value,
@@ -141,7 +150,7 @@ const EditUser = ({type}) => {
     return (
         <div className={"container"}>
             <Row className={"mt-5 justify-content-between"}>
-                <Col md={4}>
+                <Col md={4} style={{maxHeight: 400}}>
                     <Image src={photoUrl} roundedCircle style={{height: '100%', width: '100%'}}/>
                 </Col>
 
@@ -152,12 +161,14 @@ const EditUser = ({type}) => {
                     {inputTemplate(inputs, setInputs, "secondName", "Фамилия")}
                     {inputTemplate(inputs, setInputs, "email", "email")}
 
-                    <Row className={"mt-3"}>
-                        <div style={{maxWidth: 300}}>
-                            <SelectForm options={catInput.tur.map(t => t.value)}
-                                        onIndexChanged={index => setCatInput({...catInput, curTur: index})}/>
-                        </div>
-                    </Row>
+                    {inputs.userType !== managerType &&
+                        <Row className={"mt-3"}>
+                            <div style={{maxWidth: 300}}>
+                                <SelectForm options={catInput.tur.map(t => t.value)}
+                                            onIndexChanged={index => setCatInput({...catInput, curTur: index})}/>
+                            </div>
+                        </Row>
+                    }
 
                     {inputs.userType === trainerType &&
                         <Row className={"mt-3"}>
@@ -168,16 +179,17 @@ const EditUser = ({type}) => {
                         </Row>
                     }
 
-                    <Row className={"mt-3"}>
-                        <div style={{maxWidth: 300}}>
-                            <select className={"form-select"} value={inputs.userType}
-                                    onChange={e => setInputs({...inputs, userType: Number(e.target.value)})}>
-                                <option value={touristType}>Турист</option>
-                                <option value={trainerType}>Тренер</option>
-                                {/*<option value={managerType}>Мэнеджер</option>*/}
-                            </select>
-                        </div>
-                    </Row>
+                    {inputs.userType !== managerType &&
+                        <Row className={"mt-3"}>
+                            <div style={{maxWidth: 300}}>
+                                <select className={"form-select"} value={inputs.userType}
+                                        onChange={e => setInputs({...inputs, userType: Number(e.target.value)})}>
+                                    <option value={touristType}>Турист</option>
+                                    <option value={trainerType}>Тренер</option>
+                                </select>
+                            </div>
+                        </Row>
+                    }
 
                     <Row className={"mt-5"}>
                         <div>

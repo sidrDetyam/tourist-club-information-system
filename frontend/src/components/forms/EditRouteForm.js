@@ -51,10 +51,10 @@ const EditRouteForm = ({id, updateStateCb}) => {
                         })
                         check.setChecked(checked)
 
-                        setInputs(p => {
-                            p.cat = response.data.category.id
-                            return p
-                        })
+                        // setInputs(p => {
+                        //     p.cat = response.data.category.id
+                        //     return p
+                        // })
                     })
             })
             .then(() => {

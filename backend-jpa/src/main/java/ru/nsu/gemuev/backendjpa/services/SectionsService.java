@@ -73,12 +73,6 @@ public class SectionsService {
 
         final Section section = sectionsRepository.findById(editSectionDto.getId()).orElseThrow();
 
-//        final SectionManager manager = managerRepository.findByUsername(managerUsername).orElseThrow();
-//        final Section section = manager.getSections().stream()
-//                .filter(s -> Objects.equals(s.getId(), editSectionDto.getId()))
-//                .findFirst()
-//                .orElseThrow();
-
         if (editSectionDto.getName() != null) {
             section.setName(editSectionDto.getName());
         }
@@ -86,13 +80,6 @@ public class SectionsService {
             section.setDescription(editSectionDto.getDescription());
         }
         if (editSectionDto.getTrainersId() != null) {
-//            final List<Trainer> newTrainers = new ArrayList<>(section.getTrainers()
-//                    .stream()
-//                    .filter(trainer -> editSectionDto.getTrainersId().contains(trainer.getId()))
-//                    .toList());
-
-//            newTrainers.forEach(t -> t.setSection(null));
-
             trainersRepository
                     .findAllBySectionId(section.getId())
                     .stream().filter(t -> !editSectionDto.getTrainersId().contains(t.getId()))

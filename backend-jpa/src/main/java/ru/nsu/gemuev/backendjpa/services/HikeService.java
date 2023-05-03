@@ -50,15 +50,15 @@ public class HikeService {
     public void createHike(@NonNull final CreateHikeRequest request){
         RequestFieldChecker.requireNonNull(request.getName());
         final var hike = new Hike();
-        hike.setName(hike.getName());
+        hike.setName(request.getName());
         hikeRepository.save(hike);
     }
 
     @Transactional
     public void delete(final long id){
-        jdbcTemplate.update("delete from hike_diary_records where hike_id=?", id, Long.class);
-        jdbcTemplate.update("delete from tourists_hikes where hike_id=?", id, Long.class);
-        jdbcTemplate.update("delete from hikes where id=?", id, Long.class);
+        jdbcTemplate.update("delete from hike_diary_records where hike_id=?", id);
+        jdbcTemplate.update("delete from tourists_hikes where hike_id=?", id);
+        jdbcTemplate.update("delete from hikes where id=?", id);
     }
 
     @Transactional

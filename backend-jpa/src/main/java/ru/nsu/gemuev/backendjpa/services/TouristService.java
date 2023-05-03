@@ -86,10 +86,6 @@ public class TouristService {
                 touristRepository.findAll(Specification.allOf(specifications)).stream();
 
         return touristsStream.map(touristMapper::toDto).toList();
-
-//        final var list = touristsStream.toList();
-//
-//        return List.of();
     }
 
     @Transactional
@@ -114,6 +110,7 @@ public class TouristService {
     @Transactional
     public void delete(final long id){
         jdbcTemplate.update("delete from tourists_section_groups where tourist_id = ?", id);
+        jdbcTemplate.update("delete from tourists_hikes where tourist_id = ?", id);
         jdbcTemplate.update("delete from tourists where id = ?", id);
         jdbcTemplate.update("delete from users_roles where user_id = ?", id);
         jdbcTemplate.update("delete from users where id = ?", id);
