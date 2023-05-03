@@ -4,6 +4,7 @@ import PlusIcon from "../components/icons/PlusIcon";
 import ControlPointForm from "../components/forms/ControlPointForm";
 import api from "../http/Api";
 import CreateRouteForm from "../components/forms/CreateRouteForm";
+import EditRouteForm from "../components/forms/EditRouteForm";
 
 const noForm = 0
 const editPoint = 1
@@ -117,6 +118,12 @@ const HikeRoutes = () => {
                 {currentEdit === newRoute &&
                     <Col md={8}>
                         <CreateRouteForm updateStateCb={updateState}/>
+                    </Col>
+                }
+
+                {currentEdit === editRoute &&
+                    <Col md={8}>
+                        <EditRouteForm id={id} updateStateCb={updateState}/>
                     </Col>
                 }
             </Row>

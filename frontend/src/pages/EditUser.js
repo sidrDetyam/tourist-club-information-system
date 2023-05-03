@@ -8,7 +8,7 @@ import TrashIcon from "../components/icons/TrashIcon";
 import {EDIT_USERS_ROUTE} from "../Consts";
 import axios from "axios";
 import SearchIcon from "../components/icons/SearchIcon";
-import SelectForm from "../components/SelectForm";
+import SelectForm from "../components/forms/SelectForm";
 
 const photoUrl = "https://villagesonmacarthur.com/wp-content/uploads/2020/12/Blank-Avatar.png"
 

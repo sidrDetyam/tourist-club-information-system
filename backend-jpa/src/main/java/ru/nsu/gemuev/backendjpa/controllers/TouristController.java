@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.CategoryDto;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
 import ru.nsu.gemuev.backendjpa.dto.TouristDto;
-import ru.nsu.gemuev.backendjpa.dto.UserDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreateUserRequest;
 import ru.nsu.gemuev.backendjpa.dto.requests.TouristRequest;
 import ru.nsu.gemuev.backendjpa.services.TouristService;

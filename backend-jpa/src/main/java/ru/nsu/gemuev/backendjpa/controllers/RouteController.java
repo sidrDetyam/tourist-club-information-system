@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
 import ru.nsu.gemuev.backendjpa.dto.RouteDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreateRouteRequest;
+import ru.nsu.gemuev.backendjpa.dto.requests.EditRouteRequest;
 import ru.nsu.gemuev.backendjpa.services.RoutesService;
 
 import java.util.List;
@@ -34,11 +35,11 @@ public class RouteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PostMapping("/edit")
-//    public ResponseEntity<Void> edit(@RequestBody PointDto request){
-//        pointsService.editPoint(request);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PostMapping("/edit")
+    public ResponseEntity<Void> edit(@RequestBody EditRouteRequest request){
+        routesService.editRoute(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<RouteDto>> getAll(){
