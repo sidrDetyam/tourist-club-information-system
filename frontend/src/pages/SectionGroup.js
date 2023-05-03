@@ -174,13 +174,13 @@ const SectionGroup = () => {
 
                         {isEdit &&
                             <>
-                                <Button variant={"primary"} onClick={onSubmitInfoClick}>
+                                <Button variant={"secondary"} onClick={onSubmitInfoClick}>
                                     <UploadIcon size={20}/>
                                 </Button>
-                                <Button variant={"outline-primary"} onClick={() => setEdit(false)}>
+                                <Button variant={"outline-secondary"} onClick={() => setEdit(false)}>
                                     <XIcon size={20}/>
                                 </Button>
-                                <Button variant={"danger"} onClick={onDeleteClick}>
+                                <Button variant={"outline-danger"} onClick={onDeleteClick}>
                                     <TrashIcon size={20}/>
                                 </Button>
                             </>
@@ -209,7 +209,7 @@ const SectionGroup = () => {
                                     <th className={"text-center"}>Тип занятия</th>
                                     <th className={"text-center"}>Место</th>
                                     <th>
-                                        <Button onClick={() => setTableEdit(true)}>
+                                        <Button onClick={() => setTableEdit(true)} variant={"secondary"}>
                                             <EditIcon size={16}/>
                                         </Button>
                                     </th>

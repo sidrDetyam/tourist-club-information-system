@@ -32,7 +32,7 @@ const FieldSearch = ({filters, onSearchClick}) => {
                 })}
 
                 <label>
-                    <Button className={"m-sm-4"} onClick={onSearchClick}>
+                    <Button className={"m-sm-4"} onClick={onSearchClick} variant={"secondary"}>
                         <SearchIcon size={22}/>
                     </Button>
                 </label>

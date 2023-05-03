@@ -3,6 +3,7 @@ import {Button, Col, Row} from "react-bootstrap";
 import PlusIcon from "../components/icons/PlusIcon";
 import ControlPointForm from "../components/forms/ControlPointForm";
 import api from "../http/Api";
+import CreateRouteForm from "../components/forms/CreateRouteForm";
 
 const noForm = 0
 const editPoint = 1
@@ -11,11 +12,13 @@ const editRoute = 3
 const newRoute = 4
 
 const GET_ALL_POINTS_URL = "/points/get-all"
+const GET_ALL_ROUTES_URL = "/routes/get-all"
 
 const HikeRoutes = () => {
 
     const [currentEdit, setCurrentEdit] = useState(noForm)
     const [points, setPoints] = useState([])
+    const [routes, setRoutes] = useState([])
     const [id, setId] = useState(-1)
 
     const [state, setState] = useState(0)
@@ -27,12 +30,22 @@ const HikeRoutes = () => {
     useEffect(() => {
         api.get(GET_ALL_POINTS_URL)
             .then(response => setPoints(response.data))
-    }, [setPoints, state])
+
+        api.get(GET_ALL_ROUTES_URL)
+            .then(response => setRoutes(response.data))
+    }, [setPoints, setRoutes, state])
 
     const onPointClick = (index) => {
         return () => {
             setId(points[index].id)
             setCurrentEdit(editPoint)
+        }
+    }
+
+    const onRouteClick = (index) => {
+        return () => {
+            setId(routes[index].id)
+            setCurrentEdit(editRoute)
         }
     }
 
@@ -68,9 +81,20 @@ const HikeRoutes = () => {
                         <h3>Маршруты</h3>
                     </Row>
 
+                    <Row className={"mt-2"}>
+                        {
+                            <div>
+                                {routes.map((r, index) => (
+                                    <Button key={index} onClick={onRouteClick(index)} variant={"outline-secondary"}>
+                                        {r.name}
+                                    </Button>))}
+                            </div>
+                        }
+                    </Row>
+
                     <Row className={"mt-3"}>
                         <div>
-                            <Button variant={"outline-secondary"}>
+                            <Button variant={"outline-secondary"} onClick={() => setCurrentEdit(newRoute)}>
                                 <PlusIcon size={20}></PlusIcon>
                                 Новый маршрут
                             </Button>
@@ -87,6 +111,12 @@ const HikeRoutes = () => {
                 {currentEdit === editPoint &&
                     <Col md={8}>
                         <ControlPointForm id={id} updateStateCb={updateState}/>
+                    </Col>
+                }
+
+                {currentEdit === newRoute &&
+                    <Col md={8}>
+                        <CreateRouteForm updateStateCb={updateState}/>
                     </Col>
                 }
             </Row>

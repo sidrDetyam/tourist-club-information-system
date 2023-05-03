@@ -3,8 +3,9 @@ import {Row} from "react-bootstrap";
 
 const defaultWidth = 300
 const defaultMargin = 3
+const defaultVariant = "text"
 
-const InputTemplate = ({inputs, setInputs, ph, field, maxWidth, margin}) => {
+const InputTemplate = ({inputs, setInputs, ph, field, maxWidth, margin, variant}) => {
     return (
         <Row className={`mt-${margin?? defaultMargin}`}>
             <div style={{maxWidth: maxWidth?? defaultWidth}}>
@@ -17,6 +18,7 @@ const InputTemplate = ({inputs, setInputs, ph, field, maxWidth, margin}) => {
                        }
                        className={"form-control"}
                        placeholder={ph}
+                       type={variant?? defaultVariant}
                 />
             </div>
         </Row>

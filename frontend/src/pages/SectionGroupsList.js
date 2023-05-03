@@ -54,7 +54,7 @@ function SectionGroupsList() {
                                         <NavBarButton key={group.id} route={`${SECTION_GROUP_ROUTE}/${group.id}`}
                                                       title={group.name}/>
                                     ))}
-                                    <Button variant={"outline-primary"} onClick={onNewGroupClick(section)}>
+                                    <Button variant={"outline-secondary"} onClick={onNewGroupClick(section)}>
                                         <PlusIcon size={20}></PlusIcon>
                                     </Button>
                                 </div>
@@ -64,8 +64,9 @@ function SectionGroupsList() {
 
                     <Row className={"mt-5"}>
                         <div>
-                            <Button variant={"outline-primary"} onClick={onNewSectionClick}>
+                            <Button variant={"outline-secondary"} onClick={onNewSectionClick}>
                                 <PlusIcon size={20}></PlusIcon>
+                                Новая секция
                             </Button>
                         </div>
                     </Row>

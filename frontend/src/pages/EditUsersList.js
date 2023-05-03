@@ -153,7 +153,7 @@ const EditUsersList = () => {
 
                 <Row className={"justify-content-center"}>
                     <div className={"col-1"}>
-                        <Button variant={"secondary"} onClick={onCreateTouristClick}>
+                        <Button variant={"outline-secondary"} onClick={onCreateTouristClick}>
                             <PlusIcon size={22}/>
                         </Button>
                     </div>

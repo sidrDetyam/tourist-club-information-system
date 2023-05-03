@@ -18,12 +18,12 @@ public class PointController {
     private final PointsService pointsService;
 
     @PostMapping("/get-by-id")
-    public ResponseEntity<PointDto> getTrainerById(@RequestBody IdDto request){
+    public ResponseEntity<PointDto> getPointById(@RequestBody IdDto request){
         return new ResponseEntity<>(pointsService.getPointById(request.getId()), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> getTrainerById(@RequestBody CreatePointRequest request){
+    public ResponseEntity<Void> create(@RequestBody CreatePointRequest request){
         pointsService.createPoint(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
