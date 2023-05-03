@@ -3,7 +3,7 @@ package ru.nsu.gemuev.backendjpa.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.nsu.gemuev.backendjpa.entity.ControlPoint;
+import ru.nsu.gemuev.backendjpa.domain.ControlPoint;
 
 import java.util.List;
 

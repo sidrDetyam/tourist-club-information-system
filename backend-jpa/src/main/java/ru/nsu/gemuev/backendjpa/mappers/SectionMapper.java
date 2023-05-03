@@ -3,7 +3,7 @@ package ru.nsu.gemuev.backendjpa.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.nsu.gemuev.backendjpa.dto.SectionDto;
-import ru.nsu.gemuev.backendjpa.entity.Section;
+import ru.nsu.gemuev.backendjpa.domain.Section;
 
 @Mapper(componentModel = "spring",
         uses = {UserMapper.class, SectionGroupMapper.class, TrainerMapper.class})

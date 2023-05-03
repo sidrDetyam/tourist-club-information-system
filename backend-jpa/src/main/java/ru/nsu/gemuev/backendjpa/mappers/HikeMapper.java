@@ -3,7 +3,7 @@ package ru.nsu.gemuev.backendjpa.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.nsu.gemuev.backendjpa.dto.HikeDto;
-import ru.nsu.gemuev.backendjpa.entity.Hike;
+import ru.nsu.gemuev.backendjpa.domain.Hike;
 
 @Mapper(componentModel = "spring",
         uses = {TouristMapper.class, TrainerMapper.class, DiaryRecordMapper.class, RouteMapper.class})

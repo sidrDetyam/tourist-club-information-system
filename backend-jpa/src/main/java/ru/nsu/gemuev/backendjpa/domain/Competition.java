@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backendjpa.entity;
+package ru.nsu.gemuev.backendjpa.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +13,4 @@ public class Competition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-
 }

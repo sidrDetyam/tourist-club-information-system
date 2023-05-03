@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.RouteDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreateRouteRequest;
 import ru.nsu.gemuev.backendjpa.dto.requests.EditRouteRequest;
-import ru.nsu.gemuev.backendjpa.entity.Route;
+import ru.nsu.gemuev.backendjpa.domain.Route;
 import ru.nsu.gemuev.backendjpa.mappers.RouteMapper;
 import ru.nsu.gemuev.backendjpa.repositories.RoutesRepository;
 import ru.nsu.gemuev.backendjpa.utils.RequestFieldChecker;
@@ -102,6 +102,5 @@ public class RoutesService {
                 return request.getPointIds().size();
             }
         });
-
     }
 }

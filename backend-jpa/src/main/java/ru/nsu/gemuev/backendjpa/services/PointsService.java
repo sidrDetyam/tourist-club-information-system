@@ -11,7 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 import ru.nsu.gemuev.backendjpa.dto.PointDto;
 import ru.nsu.gemuev.backendjpa.dto.requests.CreatePointRequest;
-import ru.nsu.gemuev.backendjpa.entity.ControlPoint;
+import ru.nsu.gemuev.backendjpa.domain.ControlPoint;
 import ru.nsu.gemuev.backendjpa.mappers.PointMapper;
 import ru.nsu.gemuev.backendjpa.repositories.PointsRepository;
 import ru.nsu.gemuev.backendjpa.utils.RequestFieldChecker;

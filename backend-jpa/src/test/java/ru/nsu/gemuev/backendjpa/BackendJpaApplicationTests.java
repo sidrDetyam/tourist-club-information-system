@@ -1,15 +1,9 @@
 package ru.nsu.gemuev.backendjpa;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
-import ru.nsu.gemuev.backendjpa.entity.TouristCategory;
-import ru.nsu.gemuev.backendjpa.entity.Trainer;
 import ru.nsu.gemuev.backendjpa.repositories.TouristRepository;
 import ru.nsu.gemuev.backendjpa.services.SectionsService;
 import ru.nsu.gemuev.backendjpa.services.TrainerService;

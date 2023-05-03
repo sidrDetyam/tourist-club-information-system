@@ -2,7 +2,7 @@ package ru.nsu.gemuev.backendjpa.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.nsu.gemuev.backendjpa.entity.TrainerCategory;
+import ru.nsu.gemuev.backendjpa.domain.TrainerCategory;
 
 import java.util.Optional;
 

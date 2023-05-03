@@ -1,4 +1,4 @@
-package ru.nsu.gemuev.backendjpa.entity;
+package ru.nsu.gemuev.backendjpa.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

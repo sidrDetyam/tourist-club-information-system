@@ -3,6 +3,7 @@ package ru.nsu.gemuev.backendjpa.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -16,4 +17,6 @@ public class HikeDto {
     private List<DiaryRecordDto> diaryRecords;
     private String name;
     private RouteDto route;
+    private Timestamp start;
+    private Timestamp end;
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.gemuev.backendjpa.dto.HikeDto;
 import ru.nsu.gemuev.backendjpa.dto.IdDto;
+import ru.nsu.gemuev.backendjpa.dto.requests.EditHikeRequest;
 import ru.nsu.gemuev.backendjpa.services.HikeService;
 
 import java.util.List;
@@ -23,8 +24,20 @@ public class HikeController {
     }
 
     @PostMapping("/get-by-id")
-    public ResponseEntity<HikeDto> getById(@RequestBody IdDto request){
+    public ResponseEntity<HikeDto> getById(@RequestBody final IdDto request){
         final var hike = hikeService.getById(request.getId());
         return new ResponseEntity<>(hike, HttpStatus.OK);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Void> edit(@RequestBody final EditHikeRequest request){
+        hikeService.edit(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> delete(@RequestBody final IdDto request){
+        hikeService.delete(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

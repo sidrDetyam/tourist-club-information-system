@@ -5,11 +5,12 @@ const defaultWidth = 300
 const defaultMargin = 3
 const defaultVariant = "text"
 
-const InputTemplate = ({inputs, setInputs, ph, field, maxWidth, margin, variant}) => {
+const InputTemplate = ({inputs, setInputs, ph, field, maxWidth, margin, variant, other}) => {
+    const bruh = other?? {}
     return (
         <Row className={`mt-${margin?? defaultMargin}`}>
             <div style={{maxWidth: maxWidth?? defaultWidth}}>
-                <input value={inputs[field] === null ? "" : inputs[field]}
+                <input {...bruh} value={inputs[field] === null ? "" : inputs[field]}
                        onChange={e => {
                            const obj = {...inputs}
                            obj[field] = e.target.value
