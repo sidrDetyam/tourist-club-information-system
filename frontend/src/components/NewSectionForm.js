@@ -34,7 +34,7 @@ const NewSectionForm = () => {
 
             <Row className={"mt-5"}>
                 <div>
-                    <Button onClick={onSaveClick}>
+                    <Button onClick={onSaveClick} variant={"secondary"}>
                         <UploadIcon size={20}></UploadIcon>
                     </Button>
                 </div>

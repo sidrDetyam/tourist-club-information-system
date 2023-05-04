@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Col, Row} from "react-bootstrap";
 import UploadIcon from "./icons/UploadIcon";
 import api from "../http/Api";
@@ -36,7 +36,7 @@ const NewSectionGroupForm = ({section}) => {
 
             <Row className={"mt-5"}>
                 <div>
-                    <Button onClick={onSaveClick}>
+                    <Button onClick={onSaveClick} variant={"secondary"}>
                         <UploadIcon size={20}></UploadIcon>
                     </Button>
                 </div>
