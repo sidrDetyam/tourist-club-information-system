@@ -108,7 +108,7 @@ public class SectionsService {
     public void createSection(final @NonNull CreateSectionRequest request){
         final Section section = new Section();
         section.setName(request.getName());
-        section.setSectionManager(managerRepository.findAll().iterator().next());
+        //section.setSectionManager(managerRepository.findAll().iterator().next());
         sectionsRepository.save(section);
     }
 

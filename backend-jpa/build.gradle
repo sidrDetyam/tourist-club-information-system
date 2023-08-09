@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
-//    id 'net.ltgt.apt' version '0.21'
 }
 
 group = 'ru.nsu.gemuev'
@@ -20,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     compileOnly 'org.projectlombok:lombok'
@@ -41,8 +41,15 @@ dependencies {
 
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    implementation 'org.flywaydb:flyway-core'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jar {
+    archiveBaseName = 'gs-gradle'
+    archiveVersion =  '0.0.1'
 }
